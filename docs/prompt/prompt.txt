@@ -1,0 +1,166 @@
+"""
+
+"""
+
+The provided content in the triple quotation mark is the database specification.
+In the specification, the following fields are defined:
+- <Class>: The entity name
+- <Row>: A row of fields, including <Java-Field-Name>, <Java-Type>,
+         <Column-Name>, <Updatable>, <Nullable>, <Unique> and <Default-Value>
+
+Generate the SpringBoot entities using the following format:
+```java
+import assignment.wif3006cbse.config.audit.Auditable;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@Entity
+@Table(name = <Class (snake_case)>)
+@EqualsAndHashCode(callSuper = true)
+public class <Class (PascalCase)> extends Auditable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+}
+```
+For each <Row>, the format is follow:
+@Column(name = "<Column-Name (snake_case)>", updatable = <Updatable>, nullable = <Nullable>, unique = <Unique>)
+If <Updatable> is true, don't include it
+If <Nullable> is true, don't include it.
+If <Unique> is false, don't include it.
+
+For each entity, generate the code for repository using the follow format:
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface <Class>Repository extends JpaRepository<<Class>, Long> {
+}
+```
+
+For each entity, generate the code for service using following format:
+```java
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+@Slf4j
+@Service
+@Validated
+@RequiredArgsConstructor
+public class <Class>Service {
+
+    private final <Class (PascalCase)>Mapper <Class (camelCase)>Mapper;
+    private final <Class (PascalCase)>Repository <Class (camelCase)>Repository;
+
+    @Transactional
+    public <Class>Model create<Class>(@Valid Create<Class>Model create<Class>Model) {
+        <Class (PascalCase)> <Class (camelCase)> = <Class (camelCase)>Mapper.toEntity(create<Class>Model);
+        return <Class (camelCase)>Mapper.toModel(<Class (camelCase)>Repository.save(<Class (camelCase)>));
+    }
+
+    @Transactional(readOnly = true)
+    public <Class>Model find<Class>ById(@NotNull Long id) {
+        return <Class (camelCase)>Mapper.toModel(<Class (camelCase)>Repository.findById(id));
+    }
+
+    @Transactional
+    public <Class>Model update<Class>(@Valid Update<Class>Model update<Class>Model) {
+        <Class (PascalCase)> <Class (camelCase)> = <Class (camelCase)>Repository.save(sample).findById(update<Class>Model).orElseThrow(() -> new EntityNotFound("<Class (PascalCase> not found.");
+        <Class (camelCase)>Mapper.updateEntityFromUpdateModel(entity, update<Class>Model);
+        return <Class (camelCase)>Mapper.toModel(<Class (camelCase)>Repository.save(<Class (camelCase)>)););
+    }
+
+    @Transactional
+    public void delete<Class>ById(@NotNull Long id) {
+        return <Class (camelCase)>Mapper.toModel(<Class (camelCase)>Repository.deleteById(id));
+    }
+}
+```
+
+Both Create<Class>Model, <Class>Model, Update<Class>Model should have exactly the same field types and field names as <Class>.
+Except that Create<Class>Model should exclude the Long id field.
+Use record and following formatting when generating these models:
+
+```java
+public record <Model-Type>(
+    <Field-Type> <Field-Name>
+) {
+
+}
+
+However, add jakarta.validation for validation to both Create<Class>Model and Update<Class>Model.
+- For primitive type, no annotations are required.
+- For String, annotate it with jakarta.validation.constraints.@NotBlank;
+- For Object, annotate it with jakarta.validation.constraints.@NotNull;
+
+Make the annotation inline with <Field-Type> and <Field-Name>, as follows:
+```java
+@NotBlank String value;
+```
+
+Then, generate a mapper using the following format:
+```java
+import assignment.wif3006cbse.config.MapStructConfig;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(config = MapStructConfig.class)
+public interface SampleMapper {
+
+    <Class (PascalCase)>Model toModel(<Class (PascalCase)> <Class (camelCase)>);
+
+    <Class> toEntity(Create<Class>Model create<Class>Model);
+
+    void updateEntityFromUpdateModel(@MappingTarget <Class (PascalCase)> <Class (camelCase)>, Update<Class>Model create<Class>Model);
+}
+```
+
+Then, generate a web controller using the following format:
+```java
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@Slf4j
+@Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/<Class (kebab-case)")
+public class <Class (PascalCase)>Controller {
+
+    private final <Class (PascalCase)>Service <Class (camelCase)>Service;
+
+    @PostMapping
+    public <Class (PascalCase)>Model create<Class (PascalCase)>(@RequestBody @Valid Create<Class (PascalCase)>Model create<Class (PascalCase)>Model) {
+        return <Class (camelCase)>Service.create<Class (PascalCase)>(create<Class (PascalCase)>Model);
+    }
+
+    @GetMapping("/{id}")
+    public <Class (PascalCase)>Model find<Class (PascalCase)>ById(@PathVariable Long id) {
+        return <Class (camelCase)>Service.find<Class (PascalCase)>ById(id);
+    }
+
+    @PostMapping
+    public <Class (PascalCase)>Model update<Class (PascalCase)>(@RequestBody Update<Class (PascalCase)>Model update<Class (PascalCase)>Model) {
+        return <Class (camelCase)>Service.update<Class (PascalCase)>(update<Class (PascalCase)>Model);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void delete<Class (PascalCase)>(@PathVariable Long id) {
+        <Class (camelCase)>Service.delete<Class (PascalCase)>ById(id);
+    }
+}
+```
