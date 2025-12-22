@@ -14,7 +14,9 @@
           <factory-entry name="entityManagerFactory" />
           <factory-entry name="wif3006-cbse.main" value="42cef4bd-3cae-4c83-b43e-4ae711a4184b" />
         </datasource-mapping>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="entityManagerFactory" />
+        </naming-strategy-map>
       </configuration>
     </facet>
   </component>
