@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "4b7ca873-e149-4a5e-907e-6407a1c4dac4",
+		"name": "wif3006_cbse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34885243"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nzhiyang\",\r\n    \"firstName\": \"Ng\",\r\n    \"lastName\": \"Zhi Yang\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userUrl}}",
+							"host": [
+								"{{userUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAllUsers",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "community",
+			"item": [
+				{
+					"name": "post",
+					"item": [
+						{
+							"name": "createPost",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{postUrl}}",
+									"host": [
+										"{{postUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findPostsByAuthorId",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "thread",
+					"item": [
+						{
+							"name": "createThread",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"011f9ea9-2805-4809-bafb-f2affad17c38\",\r\n    \"authorId\": \"717a874a-929e-48a0-819f-781068fdb764\",\r\n    \"content\": \"Welcome to join our community! This is a new thread.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{threadUrl}}",
+									"host": [
+										"{{threadUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findThreadsByPostId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{threadUrl}}/011f9ea9-2805-4809-bafb-f2affad17c38",
+									"host": [
+										"{{threadUrl}}"
+									],
+									"path": [
+										"011f9ea9-2805-4809-bafb-f2affad17c38"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "comment",
+					"item": [
+						{
+							"name": "createComment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"threadId\": \"\",\r\n    \"authorId\": \"\",\r\n    \"content\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{commentUrl}}/",
+									"host": [
+										"{{commentUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findCommentByThreadId",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "reaction",
+					"item": [
+						{
+							"name": "createPostReaction",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sourceType\": \"POST\",\r\n    \"sourceId\": \"\",\r\n    \"authorId\": \"\",\r\n    \"reaction\": \"👍\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{reactionUrl}}",
+									"host": [
+										"{{reactionUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findReactionsByThreadId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{reactionUrl}}/thread/",
+									"host": [
+										"{{reactionUrl}}"
+									],
+									"path": [
+										"thread",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "postUrl",
+			"value": ""
+		},
+		{
+			"key": "userUrl",
+			"value": ""
+		},
+		{
+			"key": "threadUrl",
+			"value": ""
+		},
+		{
+			"key": "commentUrl",
+			"value": ""
+		},
+		{
+			"key": "reactionUrl",
+			"value": ""
+		}
+	]
+}
