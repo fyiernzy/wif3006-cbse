@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reaction")
+@RequestMapping("/api/v1/reactions")
 public class ReactionController {
 
     private final ReactionService reactionService;
