@@ -1,0 +1,684 @@
+{
+	"info": {
+		"_postman_id": "4b7ca873-e149-4a5e-907e-6407a1c4dac4",
+		"name": "wif3006_cbse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34885243"
+	},
+	"item": [
+		{
+			"name": "cbse-osgi",
+			"item": [
+				{
+					"name": "community",
+					"item": [
+						{
+							"name": "post",
+							"item": [
+								{
+									"name": "createPost",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authorId\": \"authorId\",\r\n    \"title\": \"post-3\",\r\n    \"content\": \"post-3\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiPostUrl}}",
+											"host": [
+												"{{osgiPostUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPostsByAuthorId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPostUrl}}/author/authorId",
+											"host": [
+												"{{osgiPostUrl}}"
+											],
+											"path": [
+												"author",
+												"authorId"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "thread",
+							"item": [
+								{
+									"name": "createThread",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"postId\": \"1b73256b-c624-41c2-87e8-ef26d7ac8113\",\r\n    \"authorId\": \"authorId\",\r\n    \"content\": \"post-1-thread-4-content\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiThreadUrl}}",
+											"host": [
+												"{{osgiThreadUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findThreadsByPostId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiThreadUrl}}/post/1b73256b-c624-41c2-87e8-ef26d7ac8113",
+											"host": [
+												"{{osgiThreadUrl}}"
+											],
+											"path": [
+												"post",
+												"1b73256b-c624-41c2-87e8-ef26d7ac8113"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "comment",
+							"item": [
+								{
+									"name": "createComment",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"threadId\": \"9eeeac0e-52bc-425a-a94b-efce32ba93c7\",\r\n    \"authorId\": \"authorId\",\r\n    \"content\": \"post-1-thread-1-comment-3\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiCommentUrl}}/",
+											"host": [
+												"{{osgiCommentUrl}}"
+											],
+											"path": [
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findCommentByThreadId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiCommentUrl}}/9eeeac0e-52bc-425a-a94b-efce32ba93c7",
+											"host": [
+												"{{osgiCommentUrl}}"
+											],
+											"path": [
+												"9eeeac0e-52bc-425a-a94b-efce32ba93c7"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "reaction",
+							"item": [
+								{
+									"name": "createPostReaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"POST\",\r\n    \"sourceId\": \"1b73256b-c624-41c2-87e8-ef26d7ac8113\",\r\n    \"authorId\": \"authorId\",\r\n    \"reaction\": \"👍\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiReactionUrl}}",
+											"host": [
+												"{{osgiReactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "createThreadReaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"THREAD\",\r\n    \"sourceId\": \"9eeeac0e-52bc-425a-a94b-efce32ba93c7\",\r\n    \"authorId\": \"authorId\",\r\n    \"reaction\": \"👍\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiReactionUrl}}",
+											"host": [
+												"{{osgiReactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "createCommentReaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"COMMENT\",\r\n    \"sourceId\": \"70d3e884-04ce-4a4b-af8c-69ca2378b0c2\",\r\n    \"authorId\": \"authorId\",\r\n    \"reaction\": \"👍\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiReactionUrl}}",
+											"host": [
+												"{{osgiReactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findReactionsByPostId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiReactionUrl}}/post/1b73256b-c624-41c2-87e8-ef26d7ac8113",
+											"host": [
+												"{{osgiReactionUrl}}"
+											],
+											"path": [
+												"post",
+												"1b73256b-c624-41c2-87e8-ef26d7ac8113"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findReactionsByThreadId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiReactionUrl}}/thread/9eeeac0e-52bc-425a-a94b-efce32ba93c7",
+											"host": [
+												"{{osgiReactionUrl}}"
+											],
+											"path": [
+												"thread",
+												"9eeeac0e-52bc-425a-a94b-efce32ba93c7"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findReactionsByCommentId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiReactionUrl}}/comment/70d3e884-04ce-4a4b-af8c-69ca2378b0c2",
+											"host": [
+												"{{osgiReactionUrl}}"
+											],
+											"path": [
+												"comment",
+												"70d3e884-04ce-4a4b-af8c-69ca2378b0c2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cbse-springboot",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "createUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"nzhiyang\",\r\n    \"firstName\": \"Ng\",\r\n    \"lastName\": \"Zhi Yang\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{userUrl}}",
+									"host": [
+										"{{userUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findAllUsers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{userUrl}}/bulk",
+									"host": [
+										"{{userUrl}}"
+									],
+									"path": [
+										"bulk"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "community",
+					"item": [
+						{
+							"name": "post",
+							"item": [
+								{
+									"name": "createPost",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authorId\": \"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97\",\r\n    \"title\": \"This is my second post!\",\r\n    \"content\": \"Hi everyone! I'm so excited to create my second post!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{postUrl}}",
+											"host": [
+												"{{postUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPostsByAuthorId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{postUrl}}/author/f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97",
+											"host": [
+												"{{postUrl}}"
+											],
+											"path": [
+												"author",
+												"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "thread",
+							"item": [
+								{
+									"name": "createThread",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"postId\": \"f967ef68-f93e-47b8-91d7-a36a2adf1418\",\r\n    \"authorId\": \"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97\",\r\n    \"content\": \"Hi! Nice to meet you!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{threadUrl}}",
+											"host": [
+												"{{threadUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findThreadsByPostId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{threadUrl}}/1b73256b-c624-41c2-87e8-ef26d7ac8113",
+											"host": [
+												"{{threadUrl}}"
+											],
+											"path": [
+												"1b73256b-c624-41c2-87e8-ef26d7ac8113"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "comment",
+							"item": [
+								{
+									"name": "createComment",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"threadId\": \"5df473a8-366d-46d4-8522-26a267b168a2\",\r\n    \"authorId\": \"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97\",\r\n    \"content\": \"My First comment! Should be created properly\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{commentUrl}}",
+											"host": [
+												"{{commentUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findCommentByThreadId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{commentUrl}}/",
+											"host": [
+												"{{commentUrl}}"
+											],
+											"path": [
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "reaction",
+							"item": [
+								{
+									"name": "createPostReaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"POST\",\r\n    \"sourceId\": \"f967ef68-f93e-47b8-91d7-a36a2adf1418\",\r\n    \"authorId\": \"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97\",\r\n    \"reaction\": \"✨\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{reactionUrl}}",
+											"host": [
+												"{{reactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "createThreadReaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"THREAD\",\r\n    \"sourceId\": \"51e56f2c-adfa-4fa3-9a14-3c9e21c281be\",\r\n    \"authorId\": \"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97\",\r\n    \"reaction\": \"👌\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{reactionUrl}}",
+											"host": [
+												"{{reactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "createCommentReaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"COMMENT\",\r\n    \"sourceId\": \"f967ef68-f93e-47b8-91d7-a36a2adf1418\",\r\n    \"authorId\": \"f0ccea1e-bc79-48bb-9daf-2b1b1d9b9e97\",\r\n    \"reaction\": \"👍\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{reactionUrl}}",
+											"host": [
+												"{{reactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findReactionsByPostId",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"sourceType\": \"POST\",\r\n    \"sourceId\": \"\",\r\n    \"authorId\": \"\",\r\n    \"reaction\": \"👍\"\r\n}"
+										},
+										"url": {
+											"raw": "{{reactionUrl}}/post/",
+											"host": [
+												"{{reactionUrl}}"
+											],
+											"path": [
+												"post",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findReactionsByThreadId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{reactionUrl}}/thread/51e56f2c-adfa-4fa3-9a14-3c9e21c281be",
+											"host": [
+												"{{reactionUrl}}"
+											],
+											"path": [
+												"thread",
+												"51e56f2c-adfa-4fa3-9a14-3c9e21c281be"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findReactionsByCommentId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{reactionUrl}}/comment/",
+											"host": [
+												"{{reactionUrl}}"
+											],
+											"path": [
+												"comment",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "postUrl",
+			"value": ""
+		},
+		{
+			"key": "userUrl",
+			"value": ""
+		},
+		{
+			"key": "threadUrl",
+			"value": ""
+		},
+		{
+			"key": "commentUrl",
+			"value": ""
+		},
+		{
+			"key": "reactionUrl",
+			"value": ""
+		},
+		{
+			"key": "osgiBaseUrl",
+			"value": ""
+		},
+		{
+			"key": "osgiPostUrl",
+			"value": ""
+		},
+		{
+			"key": "osgiThreadUrl",
+			"value": ""
+		},
+		{
+			"key": "osgiCommentUrl",
+			"value": ""
+		},
+		{
+			"key": "osgiReactionUrl",
+			"value": ""
+		}
+	]
+}
