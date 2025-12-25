@@ -4,25 +4,25 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Comment implements Serializable {
+public class Thread implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     private String id;
-    private String threadId;
-    private String authorId;
     private String content;
+    private String postId;
+    private String authorId;
 
-    public Comment() {
+    public Thread() {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Comment(String threadId, String authorId, String content) {
+    public Thread(String content, String authorId, String postId) {
         this.id = UUID.randomUUID().toString();
-        this.threadId = threadId;
-        this.authorId = authorId;
         this.content = content;
+        this.authorId = authorId;
+        this.postId = postId;
     }
 
     public String getId() {
@@ -33,20 +33,20 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public String getThreadId() {
-        return threadId;
-    }
-
-    public void setThreadId(String threadId) {
-        this.threadId = threadId;
-    }
-
     public String getAuthorId() {
         return authorId;
     }
 
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public String getContent() {

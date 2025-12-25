@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/thread")
+@RequestMapping("/api/v1/threads")
 public class ThreadController {
 
     private final ThreadEntityService threadEntityService;

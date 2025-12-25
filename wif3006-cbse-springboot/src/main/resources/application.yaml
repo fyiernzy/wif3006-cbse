@@ -18,3 +18,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+
+file:
+  upload-dir: docs/upload
