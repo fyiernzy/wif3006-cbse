@@ -15,7 +15,7 @@ public class Main {
                 =================================================
                 Status: ONLINE
                 Community Feature: READY
-                Endpoint: http://localhost:8181/api/hello
+                Endpoint: http://localhost:8181/
                 =================================================""");
     }
 

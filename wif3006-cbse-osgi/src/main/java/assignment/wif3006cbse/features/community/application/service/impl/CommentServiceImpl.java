@@ -1,9 +1,10 @@
-package assignment.wif3006cbse.features.community.application.service;
+package assignment.wif3006cbse.features.community.application.service.impl;
 
+import assignment.wif3006cbse.features.community.application.dto.comment.CommentModel;
+import assignment.wif3006cbse.features.community.application.dto.comment.CreateCommentModel;
+import assignment.wif3006cbse.features.community.application.dto.comment.UpdateCommentModel;
+import assignment.wif3006cbse.features.community.application.service.CommentService;
 import assignment.wif3006cbse.features.community.domain.entity.Comment;
-import assignment.wif3006cbse.features.community.application.dto.CommentModel;
-import assignment.wif3006cbse.features.community.application.dto.CreateCommentModel;
-import assignment.wif3006cbse.features.community.application.dto.UpdateCommentModel;
 import assignment.wif3006cbse.features.community.domain.repository.CommentRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -25,43 +26,44 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentModel createComment(CreateCommentModel createCommentModel) {
         Comment comment = new Comment(
-                createCommentModel.threadId(),
-                createCommentModel.authorId(),
-                createCommentModel.content());
+            createCommentModel.threadId(),
+            createCommentModel.authorId(),
+            createCommentModel.content());
         Comment saved = commentRepository.save(comment);
-        System.out.println("Created comment: " + saved.getId());
+
         return toModel(saved);
     }
 
     @Override
     public List<CommentModel> findCommentsByThreadId(String threadId) {
         return commentRepository.findAllByThreadId(threadId).stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
+            .map(this::toModel)
+            .collect(Collectors.toList());
     }
 
     @Override
     public CommentModel updateComment(UpdateCommentModel updateCommentModel) {
         Comment comment = commentRepository.findById(updateCommentModel.id())
-                .orElseThrow(() -> new IllegalArgumentException("Comment not found: " + updateCommentModel.id()));
+            .orElseThrow(() -> new IllegalArgumentException(
+                "Comment not found: " + updateCommentModel.id()));
 
         comment.setContent(updateCommentModel.content());
         Comment saved = commentRepository.save(comment);
-        System.out.println("Updated comment: " + saved.getId());
+
         return toModel(saved);
     }
 
     @Override
     public void deleteCommentById(String id) {
         commentRepository.deleteById(id);
-        System.out.println("Deleted comment: " + id);
+
     }
 
     private CommentModel toModel(Comment comment) {
         return new CommentModel(
-                comment.getId(),
-                comment.getThreadId(),
-                comment.getAuthorId(),
-                comment.getContent());
+            comment.getId(),
+            comment.getThreadId(),
+            comment.getAuthorId(),
+            comment.getContent());
     }
 }

@@ -1,9 +1,10 @@
-package assignment.wif3006cbse.features.community.domain.repository;
+package assignment.wif3006cbse.shared.spi;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CrudRepository<T, ID> {
+
     T save(T entity);
 
     Optional<T> findById(ID id);

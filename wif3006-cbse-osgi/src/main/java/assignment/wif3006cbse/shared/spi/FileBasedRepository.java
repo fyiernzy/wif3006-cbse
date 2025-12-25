@@ -1,6 +1,5 @@
-package assignment.wif3006cbse.features.community.domain.repository.impl;
+package assignment.wif3006cbse.shared.spi;
 
-import assignment.wif3006cbse.features.community.domain.repository.CrudRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +11,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-public abstract class FileBasedRepository<T extends Serializable, ID> implements CrudRepository<T, ID> {
+public abstract class FileBasedRepository<T extends Serializable, ID> implements
+    CrudRepository<T, ID> {
 
     private final Map<ID, T> store = new ConcurrentHashMap<>();
     private final String fileName;
@@ -59,7 +59,8 @@ public abstract class FileBasedRepository<T extends Serializable, ID> implements
     private void load() {
         Path path = getFilePath();
         if (Files.exists(path)) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+            try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream(path.toFile()))) {
                 Map<ID, T> loadedData = (Map<ID, T>) ois.readObject();
                 store.putAll(loadedData);
                 System.out.println("Loaded " + store.size() + " records from " + path);
@@ -75,7 +76,8 @@ public abstract class FileBasedRepository<T extends Serializable, ID> implements
             if (path.getParent() != null) {
                 Files.createDirectories(path.getParent());
             }
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path.toFile()))) {
+            try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream(path.toFile()))) {
                 oos.writeObject(new ConcurrentHashMap<>(store)); // Write a snapshot
             }
         } catch (IOException e) {

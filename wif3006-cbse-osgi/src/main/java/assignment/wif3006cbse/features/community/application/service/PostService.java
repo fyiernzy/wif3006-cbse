@@ -1,16 +1,18 @@
 package assignment.wif3006cbse.features.community.application.service;
 
-import assignment.wif3006cbse.features.community.application.dto.CreatePostModel;
-import assignment.wif3006cbse.features.community.application.dto.PostModel;
-import assignment.wif3006cbse.features.community.application.dto.UpdatePostModel;
+import assignment.wif3006cbse.features.community.application.dto.post.CreatePostModel;
+import assignment.wif3006cbse.features.community.application.dto.post.PostModel;
+import assignment.wif3006cbse.features.community.application.dto.post.UpdatePostModel;
+
 import java.util.List;
 
 public interface PostService {
+
     PostModel createPost(CreatePostModel createPostModel);
 
     PostModel findPostById(String id);
 
-    List<PostModel> findPostsByAuthorId(String authorId);
+    List<PostModel> findAllByAuthorIdOrderByCreatedAtDesc(String authorId);
 
     PostModel updatePost(UpdatePostModel updatePostModel);
 
