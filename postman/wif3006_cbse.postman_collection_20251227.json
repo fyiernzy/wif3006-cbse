@@ -1,0 +1,676 @@
+{
+    "info": {
+        "_postman_id": "4b7ca873-e149-4a5e-907e-6407a1c4dac4",
+        "name": "wif3006_cbse_v2",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "34885243"
+    },
+    "item": [
+        {
+            "name": "user",
+            "item": [
+                {
+                    "name": "createUser",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"nzhiyang\",\r\n    \"firstName\": \"Ng\",\r\n    \"lastName\": \"Zhi Yang\",\r\n    \"password\": \"123456\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{userUrl}}",
+                            "host": [
+                                "{{userUrl}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "findAllUsers",
+                    "request": {
+                        "method": "GET",
+                        "header": []
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "project",
+            "item": [
+                {
+                    "name": "createProject",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"postedBy\": \"user-123\",\n    \"projectTitle\": \"New Website Development\",\n    \"projectDescription\": \"Looking for a full stack developer.\",\n    \"location\": \"Remote\",\n    \"projectCategory\": \"IT\",\n    \"projectDuration\": \"3 Months\",\n    \"filter\": [\"Java\", \"React\"],\n    \"contactInformation\": \"contact@example.com\",\n    \"projectBudget\": 1500.0,\n    \"deadline\": \"2025-12-31\",\n    \"requiredSkills\": [\"Spring Boot\", \"React\"],\n    \"agreedToTerms\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getAllProjects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "findProjectById",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/project-456",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "project-456"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateProject",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"id\": \"project-456\",\n    \"postedBy\": \"user-123\",\n    \"projectTitle\": \"Updated Title\",\n    \"projectDescription\": \"Updated Description\",\n    \"location\": \"Remote\",\n    \"projectCategory\": \"IT\",\n    \"projectDuration\": \"6 Months\",\n    \"filter\": [\"Java\"],\n    \"contactInformation\": \"new@example.com\",\n    \"projectBudget\": 2000.0,\n    \"deadline\": \"2026-01-01\",\n    \"requiredSkills\": [\"Spring Boot\"],\n    \"agreedToTerms\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "deleteProject",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/project-456",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "project-456"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "saveFavoriteProject",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/favorite-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "favorite-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getFavoriteProjects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/favorite-project/user-123",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "favorite-project",
+                                "user-123"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getFavoriteProjectsDetails",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/favorite-project-details/user-123",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "favorite-project-details",
+                                "user-123"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "removeFavoriteProject",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/remove-favorite-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "remove-favorite-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "addApplyingProject",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/applying-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "applying-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "removeApplyingProject",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/applying-project/remove",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "applying-project",
+                                "remove"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getApplyingProjects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/applying-project/user-123",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "applying-project",
+                                "user-123"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "saveTakenProject",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/taken-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "taken-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getTakenProjects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/taken-project/user-123",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "taken-project",
+                                "user-123"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "saveCompletedProject",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/completed-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "completed-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getCompletedProjects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/completed-project/user-123",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "completed-project",
+                                "user-123"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uploadCompletedWorks",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "userId",
+                                    "value": "user-123",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "projectId",
+                                    "value": "project-456",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "files",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/upload-works",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "upload-works"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "downloadFile",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/download?fileId=file-789",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "download"
+                            ],
+                            "query": [
+                                {
+                                    "key": "fileId",
+                                    "value": "file-789"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "community",
+            "item": [
+                {
+                    "name": "post",
+                    "item": [
+                        {
+                            "name": "createPost",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{postUrl}}",
+                                    "host": [
+                                        "{{postUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findPostsByAuthorId",
+                            "request": {
+                                "method": "GET",
+                                "header": []
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "thread",
+                    "item": [
+                        {
+                            "name": "createThread",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"postId\": \"011f9ea9-2805-4809-bafb-f2affad17c38\",\r\n    \"authorId\": \"717a874a-929e-48a0-819f-781068fdb764\",\r\n    \"content\": \"Welcome to join our community! This is a new thread.\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{threadUrl}}",
+                                    "host": [
+                                        "{{threadUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findThreadsByPostId",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{threadUrl}}/011f9ea9-2805-4809-bafb-f2affad17c38",
+                                    "host": [
+                                        "{{threadUrl}}"
+                                    ],
+                                    "path": [
+                                        "011f9ea9-2805-4809-bafb-f2affad17c38"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "comment",
+                    "item": [
+                        {
+                            "name": "createComment",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"threadId\": \"\",\r\n    \"authorId\": \"\",\r\n    \"content\": \"\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{commentUrl}}/",
+                                    "host": [
+                                        "{{commentUrl}}"
+                                    ],
+                                    "path": [
+                                        ""
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findCommentByThreadId",
+                            "request": {
+                                "method": "GET",
+                                "header": []
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "reaction",
+                    "item": [
+                        {
+                            "name": "createPostReaction",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"sourceType\": \"POST\",\r\n    \"sourceId\": \"\",\r\n    \"authorId\": \"\",\r\n    \"reaction\": \"👍\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{reactionUrl}}",
+                                    "host": [
+                                        "{{reactionUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findReactionsByThreadId",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{reactionUrl}}/thread/",
+                                    "host": [
+                                        "{{reactionUrl}}"
+                                    ],
+                                    "path": [
+                                        "thread",
+                                        ""
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "New Request",
+            "request": {
+                "method": "GET",
+                "header": []
+            },
+            "response": []
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": ""
+        },
+        {
+            "key": "postUrl",
+            "value": ""
+        },
+        {
+            "key": "userUrl",
+            "value": ""
+        },
+        {
+            "key": "threadUrl",
+            "value": ""
+        },
+        {
+            "key": "commentUrl",
+            "value": ""
+        },
+        {
+            "key": "reactionUrl",
+            "value": ""
+        },
+        {
+            "key": "projectUrl",
+            "value": "http://localhost:8080/project"
+        }
+    ]
+}
