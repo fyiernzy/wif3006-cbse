@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "ProfileJobHistory")
 @Table(name = "profile_job_history")
 @EqualsAndHashCode(callSuper = true)
 public class JobHistory extends Auditable {

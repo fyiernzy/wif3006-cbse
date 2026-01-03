@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-03T17:31:40+0800",
+    date = "2026-01-03T21:43:03+0800",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
@@ -64,23 +64,23 @@ public class ProductMapperImpl implements ProductMapper {
 
         Product product = new Product();
 
-        if ( createProductModel.category() != null ) {
-            product.setCategory( createProductModel.category() );
-        }
-        if ( createProductModel.description() != null ) {
-            product.setDescription( createProductModel.description() );
-        }
-        if ( createProductModel.imageUrl() != null ) {
-            product.setImageUrl( createProductModel.imageUrl() );
+        if ( createProductModel.userId() != null ) {
+            product.setUserId( createProductModel.userId() );
         }
         if ( createProductModel.name() != null ) {
             product.setName( createProductModel.name() );
         }
+        if ( createProductModel.description() != null ) {
+            product.setDescription( createProductModel.description() );
+        }
         if ( createProductModel.price() != null ) {
             product.setPrice( createProductModel.price() );
         }
-        if ( createProductModel.userId() != null ) {
-            product.setUserId( createProductModel.userId() );
+        if ( createProductModel.category() != null ) {
+            product.setCategory( createProductModel.category() );
+        }
+        if ( createProductModel.imageUrl() != null ) {
+            product.setImageUrl( createProductModel.imageUrl() );
         }
 
         return product;
@@ -92,20 +92,20 @@ public class ProductMapperImpl implements ProductMapper {
             return;
         }
 
-        if ( updateProductModel.category() != null ) {
-            product.setCategory( updateProductModel.category() );
+        if ( updateProductModel.name() != null ) {
+            product.setName( updateProductModel.name() );
         }
         if ( updateProductModel.description() != null ) {
             product.setDescription( updateProductModel.description() );
         }
-        if ( updateProductModel.imageUrl() != null ) {
-            product.setImageUrl( updateProductModel.imageUrl() );
-        }
-        if ( updateProductModel.name() != null ) {
-            product.setName( updateProductModel.name() );
-        }
         if ( updateProductModel.price() != null ) {
             product.setPrice( updateProductModel.price() );
+        }
+        if ( updateProductModel.category() != null ) {
+            product.setCategory( updateProductModel.category() );
+        }
+        if ( updateProductModel.imageUrl() != null ) {
+            product.setImageUrl( updateProductModel.imageUrl() );
         }
     }
 }

@@ -9,7 +9,7 @@ import org.hibernate.annotations.UuidGenerator;
 import java.time.LocalDate;
 
 @Data
-@Entity
+@Entity(name = "ProfileExperience")
 @Table(name = "profile_experience")
 @EqualsAndHashCode(callSuper = true)
 public class Experience extends Auditable {

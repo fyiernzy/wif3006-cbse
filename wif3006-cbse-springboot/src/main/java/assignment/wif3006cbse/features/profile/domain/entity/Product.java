@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.UuidGenerator;
 
 @Data
-@Entity
+@Entity(name = "ProfileProduct")
 @Table(name = "profile_product")
 @EqualsAndHashCode(callSuper = true)
 public class Product extends Auditable {
