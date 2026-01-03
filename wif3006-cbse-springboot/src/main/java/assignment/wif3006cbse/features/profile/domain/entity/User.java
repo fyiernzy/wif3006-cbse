@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "ProfileUser")
 @Table(name = "profile_user")
 @EqualsAndHashCode(callSuper = true)
 public class User extends Auditable {

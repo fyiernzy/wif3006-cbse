@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-03T17:31:40+0800",
+    date = "2026-01-03T21:43:50+0800",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
@@ -74,17 +74,14 @@ public class ExperienceMapperImpl implements ExperienceMapper {
         if ( createExperienceModel.isCurrent() != null ) {
             experience.setCurrent( createExperienceModel.isCurrent() );
         }
-        if ( createExperienceModel.company() != null ) {
-            experience.setCompany( createExperienceModel.company() );
-        }
-        if ( createExperienceModel.description() != null ) {
-            experience.setDescription( createExperienceModel.description() );
-        }
-        if ( createExperienceModel.endDate() != null ) {
-            experience.setEndDate( createExperienceModel.endDate() );
+        if ( createExperienceModel.userId() != null ) {
+            experience.setUserId( createExperienceModel.userId() );
         }
         if ( createExperienceModel.jobTitle() != null ) {
             experience.setJobTitle( createExperienceModel.jobTitle() );
+        }
+        if ( createExperienceModel.company() != null ) {
+            experience.setCompany( createExperienceModel.company() );
         }
         if ( createExperienceModel.location() != null ) {
             experience.setLocation( createExperienceModel.location() );
@@ -92,8 +89,11 @@ public class ExperienceMapperImpl implements ExperienceMapper {
         if ( createExperienceModel.startDate() != null ) {
             experience.setStartDate( createExperienceModel.startDate() );
         }
-        if ( createExperienceModel.userId() != null ) {
-            experience.setUserId( createExperienceModel.userId() );
+        if ( createExperienceModel.endDate() != null ) {
+            experience.setEndDate( createExperienceModel.endDate() );
+        }
+        if ( createExperienceModel.description() != null ) {
+            experience.setDescription( createExperienceModel.description() );
         }
 
         return experience;
@@ -108,23 +108,23 @@ public class ExperienceMapperImpl implements ExperienceMapper {
         if ( updateExperienceModel.isCurrent() != null ) {
             experience.setCurrent( updateExperienceModel.isCurrent() );
         }
-        if ( updateExperienceModel.company() != null ) {
-            experience.setCompany( updateExperienceModel.company() );
-        }
-        if ( updateExperienceModel.description() != null ) {
-            experience.setDescription( updateExperienceModel.description() );
-        }
-        if ( updateExperienceModel.endDate() != null ) {
-            experience.setEndDate( updateExperienceModel.endDate() );
-        }
         if ( updateExperienceModel.jobTitle() != null ) {
             experience.setJobTitle( updateExperienceModel.jobTitle() );
+        }
+        if ( updateExperienceModel.company() != null ) {
+            experience.setCompany( updateExperienceModel.company() );
         }
         if ( updateExperienceModel.location() != null ) {
             experience.setLocation( updateExperienceModel.location() );
         }
         if ( updateExperienceModel.startDate() != null ) {
             experience.setStartDate( updateExperienceModel.startDate() );
+        }
+        if ( updateExperienceModel.endDate() != null ) {
+            experience.setEndDate( updateExperienceModel.endDate() );
+        }
+        if ( updateExperienceModel.description() != null ) {
+            experience.setDescription( updateExperienceModel.description() );
         }
     }
 }

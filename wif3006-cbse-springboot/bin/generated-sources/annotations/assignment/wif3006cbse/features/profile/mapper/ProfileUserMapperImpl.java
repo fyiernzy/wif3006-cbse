@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-03T17:31:40+0800",
+    date = "2026-01-03T21:43:50+0800",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
@@ -114,21 +114,21 @@ public class ProfileUserMapperImpl implements ProfileUserMapper {
         if ( createUserModel.isProfilePublic() != null ) {
             user.setProfilePublic( createUserModel.isProfilePublic() );
         }
-        if ( createUserModel.about() != null ) {
-            user.setAbout( createUserModel.about() );
-        }
-        List<String> list = createUserModel.categories();
-        if ( list != null ) {
-            user.setCategories( new ArrayList<String>( list ) );
-        }
         if ( createUserModel.email() != null ) {
             user.setEmail( createUserModel.email() );
+        }
+        if ( createUserModel.name() != null ) {
+            user.setName( createUserModel.name() );
+        }
+        if ( createUserModel.about() != null ) {
+            user.setAbout( createUserModel.about() );
         }
         if ( createUserModel.location() != null ) {
             user.setLocation( createUserModel.location() );
         }
-        if ( createUserModel.name() != null ) {
-            user.setName( createUserModel.name() );
+        List<String> list = createUserModel.categories();
+        if ( list != null ) {
+            user.setCategories( new ArrayList<String>( list ) );
         }
         List<String> list1 = createUserModel.skills();
         if ( list1 != null ) {
@@ -144,8 +144,14 @@ public class ProfileUserMapperImpl implements ProfileUserMapper {
             return;
         }
 
+        if ( updateUserModel.name() != null ) {
+            user.setName( updateUserModel.name() );
+        }
         if ( updateUserModel.about() != null ) {
             user.setAbout( updateUserModel.about() );
+        }
+        if ( updateUserModel.location() != null ) {
+            user.setLocation( updateUserModel.location() );
         }
         if ( user.getCategories() != null ) {
             List<String> list = updateUserModel.categories();
@@ -159,12 +165,6 @@ public class ProfileUserMapperImpl implements ProfileUserMapper {
             if ( list != null ) {
                 user.setCategories( new ArrayList<String>( list ) );
             }
-        }
-        if ( updateUserModel.location() != null ) {
-            user.setLocation( updateUserModel.location() );
-        }
-        if ( updateUserModel.name() != null ) {
-            user.setName( updateUserModel.name() );
         }
     }
 
