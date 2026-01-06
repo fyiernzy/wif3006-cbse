@@ -69,13 +69,12 @@ public class NotificationServiceImpl implements NotificationService {
 
     private NotificationModel toNotificationModel(Notification notification) {
         return new NotificationModel(
-            notification.getId(),
-            notification.getUserId(),
-            notification.getSenderId(),
-            notification.getMessage(),
-            notification.getType() != null ? notification.getType().name() : null,
-            notification.isRead(),
-            notification.getCreatedAt()
-        );
+                notification.getId(),
+                notification.getUserId(),
+                notification.getSenderId(),
+                notification.getMessage(),
+                notification.getType() != null ? notification.getType().name() : null,
+                notification.isRead(),
+                notification.getCreatedAt());
     }
 }

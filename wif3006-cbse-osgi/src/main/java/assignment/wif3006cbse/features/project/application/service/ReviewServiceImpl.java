@@ -15,7 +15,8 @@ import java.util.Optional;
 
 /**
  * Implementation of ReviewService.
- * Dependency Depth 2 - depends on ProjectRepository (ProjectDAO), ReviewRepository (ReviewDAO).
+ * Dependency Depth 2 - depends on ProjectRepository (ProjectDAO),
+ * ReviewRepository (ReviewDAO).
  * Also uses NotificationService to notify users about reviews.
  */
 @Component(service = ReviewService.class)
@@ -39,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         Project project = projectOpt.get();
-        
+
         // Check if project is completed or files accepted (ready for review)
         if (!project.isFileAccepted() && !project.isCompleted()) {
             throw new IllegalStateException("Project must have accepted deliverables or be completed before review");
@@ -51,15 +52,14 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         Review review = new Review(
-            model.projectId(),
-            model.reviewerId(),
-            model.revieweeId(),
-            model.satisfactionRating(),
-            model.projectRating(),
-            model.collaboratorRating(),
-            model.projectFeedback(),
-            model.collaboratorFeedback()
-        );
+                model.projectId(),
+                model.reviewerId(),
+                model.revieweeId(),
+                model.satisfactionRating(),
+                model.projectRating(),
+                model.collaboratorRating(),
+                model.projectFeedback(),
+                model.collaboratorFeedback());
 
         Review saved = reviewRepository.save(review);
 
@@ -70,11 +70,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         // Notify the reviewee about the review
         notificationService.sendNotification(
-            model.revieweeId(),
-            model.reviewerId(),
-            "You have received a review for project: " + project.getProjectTitle(),
-            NotificationType.REVIEW_RECEIVED
-        );
+                model.revieweeId(),
+                model.reviewerId(),
+                "You have received a review for project: " + project.getProjectTitle(),
+                NotificationType.REVIEW_RECEIVED);
 
         return toReviewModel(saved);
     }
@@ -123,17 +122,16 @@ public class ReviewServiceImpl implements ReviewService {
 
     private ReviewModel toReviewModel(Review review) {
         return new ReviewModel(
-            review.getId(),
-            review.getProjectId(),
-            review.getReviewerId(),
-            review.getRevieweeId(),
-            review.getSatisfactionRating(),
-            review.getProjectRating(),
-            review.getCollaboratorRating(),
-            review.getProjectFeedback(),
-            review.getCollaboratorFeedback(),
-            review.getAverageRating(),
-            review.getCreatedAt()
-        );
+                review.getId(),
+                review.getProjectId(),
+                review.getReviewerId(),
+                review.getRevieweeId(),
+                review.getSatisfactionRating(),
+                review.getProjectRating(),
+                review.getCollaboratorRating(),
+                review.getProjectFeedback(),
+                review.getCollaboratorFeedback(),
+                review.getAverageRating(),
+                review.getCreatedAt());
     }
 }

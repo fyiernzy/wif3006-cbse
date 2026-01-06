@@ -11,7 +11,8 @@ import java.util.List;
  * Corresponds to UploadedFilesDAO (Depth 1).
  */
 @Component(service = UploadedFilesRepository.class)
-public class UploadedFilesRepositoryImpl extends FileBasedRepository<UploadedFile, String> implements UploadedFilesRepository {
+public class UploadedFilesRepositoryImpl extends FileBasedRepository<UploadedFile, String>
+        implements UploadedFilesRepository {
 
     public UploadedFilesRepositoryImpl() {
         super("uploaded_files.json", UploadedFile::getId);

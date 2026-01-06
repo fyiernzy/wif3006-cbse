@@ -51,7 +51,7 @@ public class ProjectRepositoryImpl extends FileBasedRepository<Project, String> 
             return findAll();
         }
         return findAll().stream()
-                .filter(p -> p.getFilters() != null && 
+                .filter(p -> p.getFilters() != null &&
                         p.getFilters().stream().anyMatch(filters::contains))
                 .toList();
     }

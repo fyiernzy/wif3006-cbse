@@ -50,7 +50,7 @@ public class ApplicantRepositoryImpl extends FileBasedRepository<Applicant, Stri
     @Override
     public Optional<Applicant> findAcceptedApplicantForProject(String projectId) {
         return findAll().stream()
-                .filter(a -> projectId.equals(a.getProjectId()) && 
+                .filter(a -> projectId.equals(a.getProjectId()) &&
                         ApplicantStatus.ACCEPTED.equals(a.getStatus()))
                 .findFirst();
     }
