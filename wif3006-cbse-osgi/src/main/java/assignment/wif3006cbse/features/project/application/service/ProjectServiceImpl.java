@@ -119,7 +119,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public boolean deleteProject(String projectId) {
-        return projectRepository.deleteById(projectId);
+        projectRepository.deleteById(projectId);
+        return true;
     }
 
     @Override

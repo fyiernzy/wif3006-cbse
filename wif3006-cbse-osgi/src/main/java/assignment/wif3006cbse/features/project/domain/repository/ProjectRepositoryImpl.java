@@ -14,7 +14,7 @@ import java.util.List;
 public class ProjectRepositoryImpl extends FileBasedRepository<Project, String> implements ProjectRepository {
 
     public ProjectRepositoryImpl() {
-        super("projects.json", Project.class, Project::getId);
+        super("projects.json", Project::getId);
     }
 
     @Override

@@ -117,7 +117,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public boolean deleteReview(String reviewId) {
-        return reviewRepository.deleteById(reviewId);
+        reviewRepository.deleteById(reviewId);
+        return true;
     }
 
     private ReviewModel toReviewModel(Review review) {

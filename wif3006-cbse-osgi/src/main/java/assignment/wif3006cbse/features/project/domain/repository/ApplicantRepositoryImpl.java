@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ApplicantRepositoryImpl extends FileBasedRepository<Applicant, String> implements ApplicantRepository {
 
     public ApplicantRepositoryImpl() {
-        super("applicants.json", Applicant.class, Applicant::getId);
+        super("applicants.json", Applicant::getId);
     }
 
     @Override

@@ -174,7 +174,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean deleteApplication(String applicationId) {
-        return applicantRepository.deleteById(applicationId);
+        applicantRepository.deleteById(applicationId);
+        return true;
     }
 
     private ApplicantModel toApplicantModel(Applicant applicant) {

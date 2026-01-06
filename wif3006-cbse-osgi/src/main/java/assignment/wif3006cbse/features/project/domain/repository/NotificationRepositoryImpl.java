@@ -15,7 +15,7 @@ import java.util.List;
 public class NotificationRepositoryImpl extends FileBasedRepository<Notification, String> implements NotificationRepository {
 
     public NotificationRepositoryImpl() {
-        super("notifications.json", Notification.class, Notification::getId);
+        super("notifications.json", Notification::getId);
     }
 
     @Override

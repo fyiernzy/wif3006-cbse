@@ -14,7 +14,7 @@ import java.util.List;
 public class UploadedFilesRepositoryImpl extends FileBasedRepository<UploadedFile, String> implements UploadedFilesRepository {
 
     public UploadedFilesRepositoryImpl() {
-        super("uploaded_files.json", UploadedFile.class, UploadedFile::getId);
+        super("uploaded_files.json", UploadedFile::getId);
     }
 
     @Override

@@ -63,7 +63,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public boolean deleteNotification(String notificationId) {
-        return notificationRepository.deleteById(notificationId);
+        notificationRepository.deleteById(notificationId);
+        return true;
     }
 
     private NotificationModel toNotificationModel(Notification notification) {

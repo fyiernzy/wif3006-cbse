@@ -78,7 +78,8 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     public boolean deleteFile(String fileId) {
-        return uploadedFilesRepository.deleteById(fileId);
+        uploadedFilesRepository.deleteById(fileId);
+        return true;
     }
 
     @Override

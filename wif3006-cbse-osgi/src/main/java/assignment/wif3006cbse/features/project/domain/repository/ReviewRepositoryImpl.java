@@ -15,7 +15,7 @@ import java.util.Optional;
 public class ReviewRepositoryImpl extends FileBasedRepository<Review, String> implements ReviewRepository {
 
     public ReviewRepositoryImpl() {
-        super("reviews.json", Review.class, Review::getId);
+        super("reviews.json", Review::getId);
     }
 
     @Override
