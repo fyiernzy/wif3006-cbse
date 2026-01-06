@@ -14,7 +14,7 @@ import java.util.List;
 public class ProjectRepositoryImpl extends FileBasedRepository<Project, String> implements ProjectRepository {
 
     public ProjectRepositoryImpl() {
-        super("projects.json", Project.class, Project::getId);
+        super("projects.json", Project::getId);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ProjectRepositoryImpl extends FileBasedRepository<Project, String> 
             return findAll();
         }
         return findAll().stream()
-                .filter(p -> p.getFilters() != null && 
+                .filter(p -> p.getFilters() != null &&
                         p.getFilters().stream().anyMatch(filters::contains))
                 .toList();
     }
