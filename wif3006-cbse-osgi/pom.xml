@@ -87,7 +87,14 @@
             <Embed-Dependency>jackson-module-parameter-names,jackson-datatype-jdk8,jackson-datatype-jsr310</Embed-Dependency>
             <_dsannotations>*</_dsannotations>
 
-            <Export-Package>assignment.wif3006cbse.features.community.api</Export-Package>
+            <Export-Package>
+              assignment.wif3006cbse.features.community.api,
+              assignment.wif3006cbse.features.profile.application.service,
+              assignment.wif3006cbse.features.profile.application.dto.user,
+              assignment.wif3006cbse.features.profile.application.dto.experience,
+              assignment.wif3006cbse.features.profile.application.dto.product,
+              assignment.wif3006cbse.features.profile.application.dto.jobhistory
+            </Export-Package>
             <Import-Package>*</Import-Package>
           </instructions>
         </configuration>

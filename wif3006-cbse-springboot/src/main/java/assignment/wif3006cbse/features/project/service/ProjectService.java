@@ -238,7 +238,39 @@ public class ProjectService {
         return projectMapper.toModel(savedProject);
     }
 
-    public Resource downloadFile(String fileId) {
-        return fileStorageService.getById(fileId);
+    public Resource downloadProjectFiles(String projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        List<String> fileIds = project.getUploadedFileIds();
+        if (fileIds == null || fileIds.isEmpty()) {
+            throw new EntityNotFoundException("No files found for this project.");
+        }
+
+        try (java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(baos)) {
+
+            for (String fileId : fileIds) {
+                FileModel fileModel = fileStorageService.findById(fileId);
+                Resource resource = fileStorageService.getById(fileId);
+
+                java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry(fileModel.fileName());
+                entry.setSize(fileModel.fileSizeBytes());
+                zos.putNextEntry(entry);
+
+                java.io.InputStream is = resource.getInputStream();
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = is.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                is.close();
+                zos.closeEntry();
+            }
+            zos.finish();
+            return new org.springframework.core.io.ByteArrayResource(baos.toByteArray());
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Error while zipping files", e);
+        }
     }
 }

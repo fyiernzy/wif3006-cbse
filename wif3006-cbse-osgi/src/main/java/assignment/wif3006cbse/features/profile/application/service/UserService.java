@@ -1,0 +1,22 @@
+package assignment.wif3006cbse.features.profile.application.service;
+
+import assignment.wif3006cbse.features.profile.application.dto.user.*;
+
+import java.util.List;
+
+public interface UserService {
+
+    UserModel createUser(CreateUserModel createUserModel);
+
+    UserModel findUserById(String id);
+
+    UserModel updateUser(UpdateUserModel updateUserModel);
+
+    UserModel updateSkills(UpdateSkillsModel updateSkillsModel);
+
+    UserModel updateVisibility(String userId, boolean isPublic);
+
+    PublicUserModel getPublicProfile(String userId);
+
+    void deleteUser(String id);
+}
