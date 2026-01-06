@@ -7,7 +7,6 @@ import assignment.wif3006cbse.features.project.dto.project.ProjectUserRequest;
 import assignment.wif3006cbse.features.project.service.ProjectService;
 import assignment.wif3006cbse.features.user.dto.UserModel;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -112,10 +111,11 @@ public class ProjectController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<Resource> downloadFile(@RequestParam String fileId) {
-        Resource resource = projectService.downloadFile(fileId);
+    public ResponseEntity<Resource> downloadProjectFiles(@RequestParam String projectId) {
+        Resource resource = projectService.downloadProjectFiles(projectId);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"project_" + projectId + "_files.zip\"")
                 .body(resource);
     }
 }
