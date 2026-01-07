@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component(service = {CommentController.class}, property = {
     "osgi.jaxrs.resource=true",
-    "osgi.jaxrs.application.select=(osgi.jaxrs.name=community)"
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
 })
 @Path("/api/v1/comments")
 @Produces(MediaType.APPLICATION_JSON)

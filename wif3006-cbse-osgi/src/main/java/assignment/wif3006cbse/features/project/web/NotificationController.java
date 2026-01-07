@@ -19,7 +19,7 @@ import java.util.List;
     service = NotificationController.class,
     property = {
         "osgi.jaxrs.resource=true",
-        "osgi.jaxrs.application.select=(osgi.jaxrs.name=project)"
+        "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
     }
 )
 @Path("/notifications")
