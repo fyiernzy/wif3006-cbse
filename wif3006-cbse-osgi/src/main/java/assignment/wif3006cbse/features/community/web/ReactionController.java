@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component(service = {ReactionController.class}, property = {
     "osgi.jaxrs.resource=true",
-    "osgi.jaxrs.application.select=(osgi.jaxrs.name=community)"
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
 })
 @Path("/api/v1/reactions")
 @Produces(MediaType.APPLICATION_JSON)

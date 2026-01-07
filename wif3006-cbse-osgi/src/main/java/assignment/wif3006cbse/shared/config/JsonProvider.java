@@ -1,4 +1,4 @@
-package assignment.wif3006cbse.config;
+package assignment.wif3006cbse.shared.config;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.osgi.service.component.annotations.Component;
@@ -11,7 +11,7 @@ import javax.ws.rs.ext.Provider;
     javax.ws.rs.ext.MessageBodyWriter.class
 }, property = {
     "osgi.jaxrs.extension=true",
-    "osgi.jaxrs.application.select=(osgi.jaxrs.name=community)"
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)"
 })
 public class JsonProvider extends JacksonJsonProvider {
 

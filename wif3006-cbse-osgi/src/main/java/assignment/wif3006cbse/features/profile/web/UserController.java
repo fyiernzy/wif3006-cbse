@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Component(service = {UserController.class}, property = {
     "osgi.jaxrs.resource=true",
-    "osgi.jaxrs.application.select=(osgi.jaxrs.name=profile)"
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
 })
 @Path("/api/v1/users")
 @Produces(MediaType.APPLICATION_JSON)
