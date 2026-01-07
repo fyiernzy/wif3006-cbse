@@ -6,12 +6,20 @@ import assignment.wif3006cbse.features.project.application.dto.project.ProjectMo
 import assignment.wif3006cbse.features.project.application.dto.project.UpdateProjectModel;
 import assignment.wif3006cbse.features.project.domain.entity.Project;
 import assignment.wif3006cbse.features.project.domain.repository.ProjectRepository;
+import assignment.wif3006cbse.features.profile.application.service.UserService;
+import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
+import assignment.wif3006cbse.shared.file.FileStorageService;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Implementation of ProjectService.
@@ -22,6 +30,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Reference
     private ProjectRepository projectRepository;
+
+    @Reference
+    private UserService userService;
+
+    @Reference
+    private FileStorageService fileStorageService;
 
     @Override
     public ProjectModel createProject(CreateProjectModel model) {
@@ -167,6 +181,173 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(this::toProjectModel);
     }
 
+    @Override
+    public UserModel saveFavoriteProject(String userId, String projectId) {
+        UserModel userModel = userService.addFavoriteProject(userId, projectId);
+        return enrichUserModel(userModel);
+    }
+
+    @Override
+    public List<ProjectModel> getFavoriteProjects(String userId) {
+        UserModel user = userService.findUserById(userId);
+        List<String> favIds = user.favoriteProjects();
+        return projectRepository.findAllById(favIds).stream()
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public UserModel removeFavoriteProject(String userId, String projectId) {
+        UserModel userModel = userService.removeFavoriteProject(userId, projectId);
+        return enrichUserModel(userModel);
+    }
+
+    @Override
+    public UserModel addApplyingProject(String userId, String projectId) {
+        UserModel userModel = userService.addApplyingProject(userId, projectId);
+        return enrichUserModel(userModel);
+    }
+
+    @Override
+    public UserModel removeApplyingProject(String userId, String projectId) {
+        UserModel userModel = userService.removeApplyingProject(userId, projectId);
+        return enrichUserModel(userModel);
+    }
+
+    @Override
+    public List<ProjectModel> getApplyingProjects(String userId) {
+        UserModel user = userService.findUserById(userId);
+        List<String> applyingIds = user.applyingProjects();
+        return projectRepository.findAllById(applyingIds).stream()
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public UserModel saveTakenProject(String userId, String projectId) {
+        assignProject(projectId, userId);
+        return enrichUserModel(userService.findUserById(userId));
+    }
+
+    @Override
+    public List<ProjectModel> getTakenProjects(String userId) {
+        return projectRepository.findByServiceProvider(userId).stream()
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public UserModel saveCompletedProject(String userId, String projectId) {
+        completeProject(projectId);
+        return enrichUserModel(userService.findUserById(userId));
+    }
+
+    @Override
+    public List<ProjectModel> getCompletedProjects(String userId) {
+        return projectRepository.findByServiceProvider(userId).stream()
+                .filter(Project::isCompleted)
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public ProjectModel uploadFiles(String projectId, List<Attachment> attachments) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+
+        List<String> currentIds = project.getUploadedFileIds();
+        if (currentIds == null) {
+            currentIds = new ArrayList<>();
+        }
+
+        List<String> newIds = new ArrayList<>();
+
+        for (Attachment attachment : attachments) {
+            try {
+                InputStream is = attachment.getDataHandler().getInputStream();
+                String fileName = attachment.getContentDisposition().getParameter("filename");
+
+                if (is != null && fileName != null) {
+                    // 1. Save to disk via Storage Helper
+                    String storedFilename = fileStorageService.store(is, fileName);
+
+                    // 2. Extract UUID (if you want to strip extension as per your previous logic)
+                    String fileId = storedFilename;
+                    if (storedFilename.contains(".")) {
+                        fileId = storedFilename.substring(0, storedFilename.lastIndexOf('.'));
+                    }
+
+                    // 3. Keep track of what we just added
+                    newIds.add(fileId);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error processing file upload", e);
+            }
+        }
+
+        // Update repository
+        currentIds.addAll(newIds);
+        project.setUploadedFileIds(currentIds);
+        Project saved = projectRepository.save(project);
+
+        return toProjectModel(saved);
+    }
+
+    @Override
+    public void streamProjectFiles(String projectId, OutputStream outputStream) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+
+        List<String> fileIds = project.getUploadedFileIds();
+        if (fileIds == null || fileIds.isEmpty()) return;
+
+        try (ZipOutputStream zos = new ZipOutputStream(outputStream)) {
+            for (String fileId : fileIds) {
+                File file = fileStorageService.loadById(fileId);
+                if (file != null && file.exists()) {
+                    zos.putNextEntry(new ZipEntry(file.getName()));
+                    Files.copy(file.toPath(), zos);
+                    zos.closeEntry();
+                }
+            }
+            zos.finish();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to zip files for project: " + projectId, e);
+        }
+    }
+
+    private UserModel enrichUserModel(UserModel user) {
+        List<String> takenIds = projectRepository.findByServiceProvider(user.id()).stream()
+                .map(Project::getId)
+                .toList();
+
+        List<String> completedIds = projectRepository.findByServiceProvider(user.id()).stream()
+                .filter(Project::isCompleted)
+                .map(Project::getId)
+                .toList();
+
+        List<String> postedIds = projectRepository.findByPostedBy(user.id()).stream()
+                .map(Project::getId)
+                .toList();
+
+        return new UserModel(
+                user.id(),
+                user.email(),
+                user.name(),
+                user.about(),
+                user.location(),
+                user.categories(),
+                user.skills(),
+                user.favoriteProjects(),
+                user.applyingProjects(),
+                takenIds,
+                completedIds,
+                postedIds,
+                user.isProfilePublic(),
+                user.createdAt(),
+                user.updatedAt());
+    }
+
     private ProjectModel toProjectModel(Project project) {
         return new ProjectModel(
                 project.getId(),
@@ -190,7 +371,9 @@ public class ProjectServiceImpl implements ProjectService {
                 project.isFileAccepted(),
                 project.getServiceProvider(),
                 project.getCreatedAt(),
-                project.getUpdatedAt());
+                project.getUpdatedAt(),
+                project.getUploadedFileIds() != null ? new ArrayList<>(project.getUploadedFileIds())
+                        : new ArrayList<>());
     }
 
     private ProjectListModel toProjectListModel(Project project) {

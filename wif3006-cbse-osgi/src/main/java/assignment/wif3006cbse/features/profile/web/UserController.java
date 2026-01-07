@@ -8,6 +8,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Map;
 
 @Component(service = {UserController.class}, property = {
@@ -42,6 +43,19 @@ public class UserController {
         try {
             UserModel user = userService.findUserById(id);
             return Response.ok(user).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(404)
+                .entity(Map.of("error", e.getMessage()))
+                .build();
+        }
+    }
+    // Get all users
+    @GET
+    @Path("/all")
+    public Response getAllUsers() {
+        try {
+            List<UserModel> users = userService.getAllUsers();
+            return Response.ok(users).build();
         } catch (IllegalArgumentException e) {
             return Response.status(404)
                 .entity(Map.of("error", e.getMessage()))

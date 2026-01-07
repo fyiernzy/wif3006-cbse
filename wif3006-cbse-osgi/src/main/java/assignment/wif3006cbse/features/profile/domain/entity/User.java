@@ -19,6 +19,8 @@ public class User implements Serializable {
     private String location;
     private List<String> categories;
     private List<String> skills;
+    private List<String> favoriteProjects;
+    private List<String> applyingProjects;
     private boolean isProfilePublic;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -29,6 +31,8 @@ public class User implements Serializable {
         this.updatedAt = LocalDateTime.now();
         this.categories = new ArrayList<>();
         this.skills = new ArrayList<>();
+        this.favoriteProjects = new ArrayList<>();
+        this.applyingProjects = new ArrayList<>();
         this.isProfilePublic = true;
     }
 
@@ -40,6 +44,8 @@ public class User implements Serializable {
         this.updatedAt = LocalDateTime.now();
         this.categories = new ArrayList<>();
         this.skills = new ArrayList<>();
+        this.favoriteProjects = new ArrayList<>();
+        this.applyingProjects = new ArrayList<>();
         this.isProfilePublic = true;
     }
 
@@ -101,6 +107,24 @@ public class User implements Serializable {
 
     public void setSkills(List<String> skills) {
         this.skills = skills;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public List<String> getFavoriteProjects() {
+        return favoriteProjects;
+    }
+
+    public void setFavoriteProjects(List<String> favoriteProjects) {
+        this.favoriteProjects = favoriteProjects;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public List<String> getApplyingProjects() {
+        return applyingProjects;
+    }
+
+    public void setApplyingProjects(List<String> applyingProjects) {
+        this.applyingProjects = applyingProjects;
         this.updatedAt = LocalDateTime.now();
     }
 
