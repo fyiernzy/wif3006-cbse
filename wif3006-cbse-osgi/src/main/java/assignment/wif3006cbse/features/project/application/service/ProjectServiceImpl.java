@@ -8,13 +8,18 @@ import assignment.wif3006cbse.features.project.domain.entity.Project;
 import assignment.wif3006cbse.features.project.domain.repository.ProjectRepository;
 import assignment.wif3006cbse.features.profile.application.service.UserService;
 import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
+import assignment.wif3006cbse.shared.file.FileStorageService;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Implementation of ProjectService.
@@ -28,6 +33,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Reference
     private UserService userService;
+
+    @Reference
+    private FileStorageService fileStorageService;
 
     @Override
     public ProjectModel createProject(CreateProjectModel model) {
@@ -195,13 +203,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void addApplyingProject(String userId, String projectId) {
-        userService.addApplyingProject(userId, projectId);
+    public UserModel addApplyingProject(String userId, String projectId) {
+        UserModel userModel = userService.addApplyingProject(userId, projectId);
+        return enrichUserModel(userModel);
     }
 
     @Override
-    public void removeApplyingProject(String userId, String projectId) {
-        userService.removeApplyingProject(userId, projectId);
+    public UserModel removeApplyingProject(String userId, String projectId) {
+        UserModel userModel = userService.removeApplyingProject(userId, projectId);
+        return enrichUserModel(userModel);
     }
 
     @Override
@@ -238,6 +248,72 @@ public class ProjectServiceImpl implements ProjectService {
                 .filter(Project::isCompleted)
                 .map(this::toProjectModel)
                 .toList();
+    }
+
+    @Override
+    public ProjectModel uploadFiles(String projectId, List<Attachment> attachments) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+
+        List<String> currentIds = project.getUploadedFileIds();
+        if (currentIds == null) {
+            currentIds = new ArrayList<>();
+        }
+
+        List<String> newIds = new ArrayList<>();
+
+        for (Attachment attachment : attachments) {
+            try {
+                InputStream is = attachment.getDataHandler().getInputStream();
+                String fileName = attachment.getContentDisposition().getParameter("filename");
+
+                if (is != null && fileName != null) {
+                    // 1. Save to disk via Storage Helper
+                    String storedFilename = fileStorageService.store(is, fileName);
+
+                    // 2. Extract UUID (if you want to strip extension as per your previous logic)
+                    String fileId = storedFilename;
+                    if (storedFilename.contains(".")) {
+                        fileId = storedFilename.substring(0, storedFilename.lastIndexOf('.'));
+                    }
+
+                    // 3. Keep track of what we just added
+                    newIds.add(fileId);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error processing file upload", e);
+            }
+        }
+
+        // Update repository
+        currentIds.addAll(newIds);
+        project.setUploadedFileIds(currentIds);
+        Project saved = projectRepository.save(project);
+
+        return toProjectModel(saved);
+    }
+
+    @Override
+    public void streamProjectFiles(String projectId, OutputStream outputStream) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+
+        List<String> fileIds = project.getUploadedFileIds();
+        if (fileIds == null || fileIds.isEmpty()) return;
+
+        try (ZipOutputStream zos = new ZipOutputStream(outputStream)) {
+            for (String fileId : fileIds) {
+                File file = fileStorageService.loadById(fileId);
+                if (file != null && file.exists()) {
+                    zos.putNextEntry(new ZipEntry(file.getName()));
+                    Files.copy(file.toPath(), zos);
+                    zos.closeEntry();
+                }
+            }
+            zos.finish();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to zip files for project: " + projectId, e);
+        }
     }
 
     private UserModel enrichUserModel(UserModel user) {
@@ -295,7 +371,9 @@ public class ProjectServiceImpl implements ProjectService {
                 project.isFileAccepted(),
                 project.getServiceProvider(),
                 project.getCreatedAt(),
-                project.getUpdatedAt());
+                project.getUpdatedAt(),
+                project.getUploadedFileIds() != null ? new ArrayList<>(project.getUploadedFileIds())
+                        : new ArrayList<>());
     }
 
     private ProjectListModel toProjectListModel(Project project) {

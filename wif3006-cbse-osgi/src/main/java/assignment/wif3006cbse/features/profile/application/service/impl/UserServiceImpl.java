@@ -9,6 +9,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component(service = UserService.class)
 public class UserServiceImpl implements UserService {
@@ -114,6 +116,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserModel> getAllUsers() {
+        return userRepository.findAll().stream()
+            .map(this::toModel)
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public UserModel addFavoriteProject(String userId, String projectId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
@@ -137,7 +146,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addApplyingProject(String userId, String projectId) {
+    public UserModel addApplyingProject(String userId, String projectId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
@@ -145,16 +154,18 @@ public class UserServiceImpl implements UserService {
             user.getApplyingProjects().add(projectId);
             userRepository.save(user);
         }
+        return toModel(user);
     }
 
     @Override
-    public void removeApplyingProject(String userId, String projectId) {
+    public UserModel removeApplyingProject(String userId, String projectId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
         if (user.getApplyingProjects().remove(projectId)) {
             userRepository.save(user);
         }
+        return toModel(user);
     }
 
     private UserModel toModel(User user) {

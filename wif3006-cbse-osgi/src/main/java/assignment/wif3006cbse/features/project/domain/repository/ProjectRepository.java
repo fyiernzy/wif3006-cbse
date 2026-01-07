@@ -44,9 +44,6 @@ public interface ProjectRepository extends CrudRepository<Project, String> {
     /**
      * Find projects where files have been uploaded but not yet accepted.
      */
-    /**
-     * Find projects where files have been uploaded but not yet accepted.
-     */
     List<Project> findPendingReviewProjects();
 
     /**

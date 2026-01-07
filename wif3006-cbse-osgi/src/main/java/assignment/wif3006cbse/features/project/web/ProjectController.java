@@ -7,12 +7,16 @@ import assignment.wif3006cbse.features.project.application.dto.project.UpdatePro
 import assignment.wif3006cbse.features.project.application.dto.project.ProjectUserRequest;
 import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
 import assignment.wif3006cbse.features.project.application.service.ProjectService;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -173,6 +177,8 @@ public class ProjectController {
                         .build());
     }
 
+    // Provider Module start
+
     @POST
     @Path("/favorite-project")
     public Response saveFavoriteProject(ProjectUserRequest request) {
@@ -197,15 +203,15 @@ public class ProjectController {
     @POST
     @Path("/applying-project")
     public Response addApplyingProject(ProjectUserRequest request) {
-        projectService.addApplyingProject(request.userId(), request.projectId());
-        return Response.noContent().build();
+        UserModel userModel = projectService.addApplyingProject(request.userId(), request.projectId());
+        return Response.ok(userModel).build();
     }
 
     @PUT
     @Path("/applying-project/remove")
     public Response removeApplyingProject(ProjectUserRequest request) {
-        projectService.removeApplyingProject(request.userId(), request.projectId());
-        return Response.noContent().build();
+        UserModel userModel = projectService.removeApplyingProject(request.userId(), request.projectId());
+        return Response.ok(userModel).build();
     }
 
     @GET
@@ -242,6 +248,35 @@ public class ProjectController {
         List<ProjectModel> projects = projectService.getCompletedProjects(userId);
         return Response.ok(projects).build();
     }
+
+    @POST
+    @Path("/{projectId}/files")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFiles(
+            @PathParam("projectId") String projectId,
+            List<Attachment> attachments) throws IOException {
+
+        if (attachments == null || attachments.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("No files uploaded").build();
+        }
+
+        ProjectModel projectModel = projectService.uploadFiles(projectId, attachments);
+        return Response.ok(projectModel).build();
+    }
+
+    @GET
+    @Path("/{projectId}/files")
+    @Produces("application/zip")
+    public Response downloadFiles(@PathParam("projectId") String projectId) {
+        StreamingOutput streamingOutput = outputStream -> {
+            projectService.streamProjectFiles(projectId, outputStream);
+        };
+        return Response.ok(streamingOutput)
+                .header("Content-Disposition", "attachment; filename=\"project-" + projectId + ".zip\"")
+                .build();
+    }
+
+    // Provider Module End
 
     /**
      * Simple error response wrapper.

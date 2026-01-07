@@ -22,9 +22,11 @@ public interface UserService {
 
     UserModel removeFavoriteProject(String userId, String projectId);
 
-    void addApplyingProject(String userId, String projectId);
+    UserModel addApplyingProject(String userId, String projectId);
 
-    void removeApplyingProject(String userId, String projectId);
+    UserModel removeApplyingProject(String userId, String projectId);
 
     void deleteUser(String id);
+
+    List<UserModel> getAllUsers();
 }

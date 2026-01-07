@@ -5,7 +5,9 @@ import assignment.wif3006cbse.features.project.application.dto.project.ProjectLi
 import assignment.wif3006cbse.features.project.application.dto.project.ProjectModel;
 import assignment.wif3006cbse.features.project.application.dto.project.UpdateProjectModel;
 import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,9 +88,9 @@ public interface ProjectService {
 
     UserModel removeFavoriteProject(String userId, String projectId);
 
-    void addApplyingProject(String userId, String projectId);
+    UserModel addApplyingProject(String userId, String projectId);
 
-    void removeApplyingProject(String userId, String projectId);
+    UserModel removeApplyingProject(String userId, String projectId);
 
     List<ProjectModel> getApplyingProjects(String userId);
 
@@ -99,4 +101,8 @@ public interface ProjectService {
     UserModel saveCompletedProject(String userId, String projectId);
 
     List<ProjectModel> getCompletedProjects(String userId);
+
+    ProjectModel uploadFiles(String projectId, List<Attachment> attachments);
+
+    void streamProjectFiles(String projectId, OutputStream outputStream);
 }
