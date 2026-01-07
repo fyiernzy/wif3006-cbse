@@ -6,12 +6,15 @@ import assignment.wif3006cbse.features.project.application.dto.project.ProjectMo
 import assignment.wif3006cbse.features.project.application.dto.project.UpdateProjectModel;
 import assignment.wif3006cbse.features.project.domain.entity.Project;
 import assignment.wif3006cbse.features.project.domain.repository.ProjectRepository;
+import assignment.wif3006cbse.features.profile.application.service.UserService;
+import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of ProjectService.
@@ -22,6 +25,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Reference
     private ProjectRepository projectRepository;
+
+    @Reference
+    private UserService userService;
 
     @Override
     public ProjectModel createProject(CreateProjectModel model) {
@@ -165,6 +171,105 @@ public class ProjectServiceImpl implements ProjectService {
                     return projectRepository.save(project);
                 })
                 .map(this::toProjectModel);
+    }
+
+    @Override
+    public UserModel saveFavoriteProject(String userId, String projectId) {
+        UserModel userModel = userService.addFavoriteProject(userId, projectId);
+        return enrichUserModel(userModel);
+    }
+
+    @Override
+    public List<ProjectModel> getFavoriteProjects(String userId) {
+        UserModel user = userService.findUserById(userId);
+        List<String> favIds = user.favoriteProjects();
+        return projectRepository.findAllById(favIds).stream()
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public UserModel removeFavoriteProject(String userId, String projectId) {
+        UserModel userModel = userService.removeFavoriteProject(userId, projectId);
+        return enrichUserModel(userModel);
+    }
+
+    @Override
+    public void addApplyingProject(String userId, String projectId) {
+        userService.addApplyingProject(userId, projectId);
+    }
+
+    @Override
+    public void removeApplyingProject(String userId, String projectId) {
+        userService.removeApplyingProject(userId, projectId);
+    }
+
+    @Override
+    public List<ProjectModel> getApplyingProjects(String userId) {
+        UserModel user = userService.findUserById(userId);
+        List<String> applyingIds = user.applyingProjects();
+        return projectRepository.findAllById(applyingIds).stream()
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public UserModel saveTakenProject(String userId, String projectId) {
+        assignProject(projectId, userId);
+        return enrichUserModel(userService.findUserById(userId));
+    }
+
+    @Override
+    public List<ProjectModel> getTakenProjects(String userId) {
+        return projectRepository.findByServiceProvider(userId).stream()
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    @Override
+    public UserModel saveCompletedProject(String userId, String projectId) {
+        completeProject(projectId);
+        return enrichUserModel(userService.findUserById(userId));
+    }
+
+    @Override
+    public List<ProjectModel> getCompletedProjects(String userId) {
+        return projectRepository.findByServiceProvider(userId).stream()
+                .filter(Project::isCompleted)
+                .map(this::toProjectModel)
+                .toList();
+    }
+
+    private UserModel enrichUserModel(UserModel user) {
+        List<String> takenIds = projectRepository.findByServiceProvider(user.id()).stream()
+                .map(Project::getId)
+                .toList();
+
+        List<String> completedIds = projectRepository.findByServiceProvider(user.id()).stream()
+                .filter(Project::isCompleted)
+                .map(Project::getId)
+                .toList();
+
+        List<String> postedIds = projectRepository.findByPostedBy(user.id()).stream()
+                .map(Project::getId)
+                .toList();
+
+        return new UserModel(
+                user.id(),
+                user.email(),
+                user.name(),
+                user.about(),
+                user.location(),
+                user.categories(),
+                user.skills(),
+                user.favoriteProjects(),
+                user.applyingProjects(),
+                takenIds,
+                completedIds,
+                postedIds,
+                user.isProfilePublic(),
+                user.createdAt(),
+                user.updatedAt());
     }
 
     private ProjectModel toProjectModel(Project project) {

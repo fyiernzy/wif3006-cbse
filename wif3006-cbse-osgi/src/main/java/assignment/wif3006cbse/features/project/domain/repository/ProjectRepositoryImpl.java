@@ -69,4 +69,14 @@ public class ProjectRepositoryImpl extends FileBasedRepository<Project, String> 
                 .filter(p -> p.isTaken() && !p.isCompleted() && p.isFileAccepted())
                 .toList();
     }
+
+    @Override
+    public List<Project> findAllById(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return findAll().stream()
+                .filter(p -> ids.contains(p.getId()))
+                .toList();
+    }
 }

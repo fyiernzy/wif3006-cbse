@@ -18,5 +18,13 @@ public interface UserService {
 
     PublicUserModel getPublicProfile(String userId);
 
+    UserModel addFavoriteProject(String userId, String projectId);
+
+    UserModel removeFavoriteProject(String userId, String projectId);
+
+    void addApplyingProject(String userId, String projectId);
+
+    void removeApplyingProject(String userId, String projectId);
+
     void deleteUser(String id);
 }

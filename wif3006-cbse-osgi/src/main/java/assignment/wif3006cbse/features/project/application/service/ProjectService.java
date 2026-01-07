@@ -4,6 +4,7 @@ import assignment.wif3006cbse.features.project.application.dto.project.CreatePro
 import assignment.wif3006cbse.features.project.application.dto.project.ProjectListModel;
 import assignment.wif3006cbse.features.project.application.dto.project.ProjectModel;
 import assignment.wif3006cbse.features.project.application.dto.project.UpdateProjectModel;
+import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,4 +79,24 @@ public interface ProjectService {
      * Accept the deliverables for a project.
      */
     Optional<ProjectModel> acceptDeliverables(String projectId);
+
+    UserModel saveFavoriteProject(String userId, String projectId);
+
+    List<ProjectModel> getFavoriteProjects(String userId);
+
+    UserModel removeFavoriteProject(String userId, String projectId);
+
+    void addApplyingProject(String userId, String projectId);
+
+    void removeApplyingProject(String userId, String projectId);
+
+    List<ProjectModel> getApplyingProjects(String userId);
+
+    UserModel saveTakenProject(String userId, String projectId);
+
+    List<ProjectModel> getTakenProjects(String userId);
+
+    UserModel saveCompletedProject(String userId, String projectId);
+
+    List<ProjectModel> getCompletedProjects(String userId);
 }
