@@ -1,0 +1,283 @@
+{
+    "info": {
+        "name": "WIF3006 CBSE Project Provider Module",
+        "description": "Postman collection for Project Provider Module endpoints.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Provider Actions",
+            "item": [
+                {
+                    "name": "Apply for Project",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"projectId\": \"{{projectId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/applying-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "applying-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove Applying Project",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"projectId\": \"{{projectId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/applying-project/remove",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "applying-project",
+                                "remove"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Save Favorite Project",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"projectId\": \"{{projectId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/favorite-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "favorite-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove Favorite Project",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"projectId\": \"{{projectId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/remove-favorite-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "remove-favorite-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Save Taken Project",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"projectId\": \"{{projectId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/taken-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "taken-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Save Completed Project",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"projectId\": \"{{projectId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{projectUrl}}/completed-project",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "completed-project"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Provider Views",
+            "item": [
+                {
+                    "name": "Get Projects by Service Provider",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/service-provider/{{userId}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "service-provider",
+                                "{{userId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Applying Projects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/applying-project/{{userId}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "applying-project",
+                                "{{userId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Favorite Projects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/favorite-project/{{userId}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "favorite-project",
+                                "{{userId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Taken Projects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/taken-project/{{userId}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "taken-project",
+                                "{{userId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Completed Projects",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{projectUrl}}/completed-project/{{userId}}",
+                            "host": [
+                                "{{projectUrl}}"
+                            ],
+                            "path": [
+                                "completed-project",
+                                "{{userId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "projectUrl",
+            "value": "http://localhost:8080/projects",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "user-uuid-1",
+            "type": "string"
+        },
+        {
+            "key": "projectId",
+            "value": "project-uuid-1",
+            "type": "string"
+        }
+    ]
+}

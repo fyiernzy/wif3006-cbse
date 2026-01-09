@@ -4,13 +4,19 @@ import assignment.wif3006cbse.features.project.application.dto.project.CreatePro
 import assignment.wif3006cbse.features.project.application.dto.project.ProjectListModel;
 import assignment.wif3006cbse.features.project.application.dto.project.ProjectModel;
 import assignment.wif3006cbse.features.project.application.dto.project.UpdateProjectModel;
+import assignment.wif3006cbse.features.project.application.dto.project.ProjectUserRequest;
+import assignment.wif3006cbse.features.profile.application.dto.user.UserModel;
 import assignment.wif3006cbse.features.project.application.service.ProjectService;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -18,13 +24,10 @@ import java.util.List;
  * Dependency Depth 4 - depends on ProjectService.
  * Provides endpoints for CRUD operations on projects.
  */
-@Component(
-    service = ProjectController.class,
-    property = {
+@Component(service = ProjectController.class, property = {
         "osgi.jaxrs.resource=true",
         "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
-    }
-)
+})
 @Path("/projects")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -174,8 +177,110 @@ public class ProjectController {
                         .build());
     }
 
+    // Provider Module start
+
+    @POST
+    @Path("/favorite-project")
+    public Response saveFavoriteProject(ProjectUserRequest request) {
+        UserModel user = projectService.saveFavoriteProject(request.userId(), request.projectId());
+        return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/favorite-project/{userId}")
+    public Response getFavoriteProjects(@PathParam("userId") String userId) {
+        List<ProjectModel> projects = projectService.getFavoriteProjects(userId);
+        return Response.ok(projects).build();
+    }
+
+    @POST
+    @Path("/remove-favorite-project")
+    public Response removeFavoriteProject(ProjectUserRequest request) {
+        UserModel user = projectService.removeFavoriteProject(request.userId(), request.projectId());
+        return Response.ok(user).build();
+    }
+
+    @POST
+    @Path("/applying-project")
+    public Response addApplyingProject(ProjectUserRequest request) {
+        UserModel userModel = projectService.addApplyingProject(request.userId(), request.projectId());
+        return Response.ok(userModel).build();
+    }
+
+    @PUT
+    @Path("/applying-project/remove")
+    public Response removeApplyingProject(ProjectUserRequest request) {
+        UserModel userModel = projectService.removeApplyingProject(request.userId(), request.projectId());
+        return Response.ok(userModel).build();
+    }
+
+    @GET
+    @Path("/applying-project/{userId}")
+    public Response getApplyingProjects(@PathParam("userId") String userId) {
+        List<ProjectModel> projects = projectService.getApplyingProjects(userId);
+        return Response.ok(projects).build();
+    }
+
+    @POST
+    @Path("/taken-project")
+    public Response saveTakenProject(ProjectUserRequest request) {
+        UserModel user = projectService.saveTakenProject(request.userId(), request.projectId());
+        return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/taken-project/{userId}")
+    public Response getTakenProjects(@PathParam("userId") String userId) {
+        List<ProjectModel> projects = projectService.getTakenProjects(userId);
+        return Response.ok(projects).build();
+    }
+
+    @POST
+    @Path("/completed-project")
+    public Response saveCompletedProject(ProjectUserRequest request) {
+        UserModel user = projectService.saveCompletedProject(request.userId(), request.projectId());
+        return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/completed-project/{userId}")
+    public Response getCompletedProjects(@PathParam("userId") String userId) {
+        List<ProjectModel> projects = projectService.getCompletedProjects(userId);
+        return Response.ok(projects).build();
+    }
+
+    @POST
+    @Path("/{projectId}/files")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFiles(
+            @PathParam("projectId") String projectId,
+            List<Attachment> attachments) throws IOException {
+
+        if (attachments == null || attachments.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("No files uploaded").build();
+        }
+
+        ProjectModel projectModel = projectService.uploadFiles(projectId, attachments);
+        return Response.ok(projectModel).build();
+    }
+
+    @GET
+    @Path("/{projectId}/files")
+    @Produces("application/zip")
+    public Response downloadFiles(@PathParam("projectId") String projectId) {
+        StreamingOutput streamingOutput = outputStream -> {
+            projectService.streamProjectFiles(projectId, outputStream);
+        };
+        return Response.ok(streamingOutput)
+                .header("Content-Disposition", "attachment; filename=\"project-" + projectId + ".zip\"")
+                .build();
+    }
+
+    // Provider Module End
+
     /**
      * Simple error response wrapper.
      */
-    public record ErrorResponse(String message) {}
+    public record ErrorResponse(String message) {
+    }
 }
