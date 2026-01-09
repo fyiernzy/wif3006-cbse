@@ -32,7 +32,9 @@ public class PostService {
     @Transactional
     public PostModel createPost(@Valid CreatePostModel createPostModel) {
         String authorId = createPostModel.authorId();
-        Asserts.state(userRepository.existsById(authorId), "The user does not exist");
+        Asserts.state(userRepository.existsById(authorId),
+            "User (id=%s) doesn't exist!".formatted(authorId));
+
         Post post = postMapper.toEntity(createPostModel);
         return postMapper.toModel(postRepository.save(post));
     }

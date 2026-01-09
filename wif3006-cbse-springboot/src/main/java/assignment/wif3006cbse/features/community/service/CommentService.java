@@ -40,7 +40,7 @@ public class CommentService {
 
         String authorId = createCommentModel.authorId();
         Asserts.state(userRepository.existsById(authorId),
-            "Author (id=%s) doesn't exist!".formatted(authorId));
+            "User (id=%s) doesn't exist!".formatted(authorId));
 
         Comment comment = commentMapper.toEntity(createCommentModel);
         return commentMapper.toModel(commentRepository.save(comment));
