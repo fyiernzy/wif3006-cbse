@@ -12,10 +12,11 @@ import java.util.List;
  * Corresponds to NotificationDAO (Depth 1).
  */
 @Component(service = NotificationRepository.class)
-public class NotificationRepositoryImpl extends FileBasedRepository<Notification, String> implements NotificationRepository {
+public class NotificationRepositoryImpl extends FileBasedRepository<Notification, String>
+        implements NotificationRepository {
 
     public NotificationRepositoryImpl() {
-        super("notifications.json", Notification.class, Notification::getId);
+        super("notifications.json", Notification::getId);
     }
 
     @Override

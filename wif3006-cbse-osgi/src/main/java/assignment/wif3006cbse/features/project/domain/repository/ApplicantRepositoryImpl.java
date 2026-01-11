@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ApplicantRepositoryImpl extends FileBasedRepository<Applicant, String> implements ApplicantRepository {
 
     public ApplicantRepositoryImpl() {
-        super("applicants.json", Applicant.class, Applicant::getId);
+        super("applicants.json", Applicant::getId);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ApplicantRepositoryImpl extends FileBasedRepository<Applicant, Stri
     @Override
     public Optional<Applicant> findAcceptedApplicantForProject(String projectId) {
         return findAll().stream()
-                .filter(a -> projectId.equals(a.getProjectId()) && 
+                .filter(a -> projectId.equals(a.getProjectId()) &&
                         ApplicantStatus.ACCEPTED.equals(a.getStatus()))
                 .findFirst();
     }

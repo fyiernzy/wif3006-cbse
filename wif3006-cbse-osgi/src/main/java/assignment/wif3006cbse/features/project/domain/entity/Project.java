@@ -33,18 +33,21 @@ public class Project implements Serializable {
     private String contactInformation;
     private String additionalNotes;
     private boolean agreedToTerms;
-    
+
     // Status flags
     private boolean posted;
     private boolean taken;
     private boolean completed;
     private boolean fileAccepted;
-    
+
     // Service provider
     private String serviceProvider; // User ID of the freelancer who took the project
-    
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // Attachments
+    private List<String> uploadedFileIds;
 
     public Project() {
         this.id = UUID.randomUUID().toString();
@@ -56,12 +59,13 @@ public class Project implements Serializable {
         this.taken = false;
         this.completed = false;
         this.fileAccepted = false;
+        this.uploadedFileIds = new ArrayList<>();
     }
 
     public Project(String postedBy, String projectTitle, String projectDescription,
-                   String location, String projectCategory, String projectDuration,
-                   List<String> requiredSkills, BigDecimal projectBudget, LocalDate deadline,
-                   String contactInformation, String additionalNotes, boolean agreedToTerms) {
+            String location, String projectCategory, String projectDuration,
+            List<String> requiredSkills, BigDecimal projectBudget, LocalDate deadline,
+            String contactInformation, String additionalNotes, boolean agreedToTerms) {
         this();
         this.postedBy = postedBy;
         this.projectTitle = projectTitle;
@@ -77,13 +81,17 @@ public class Project implements Serializable {
         this.agreedToTerms = agreedToTerms;
         // Auto-generate filters
         this.filters = generateFilters();
+        this.uploadedFileIds = new ArrayList<>();
     }
 
     private List<String> generateFilters() {
         List<String> generatedFilters = new ArrayList<>();
-        if (projectCategory != null) generatedFilters.add(projectCategory);
-        if (projectDuration != null) generatedFilters.add(projectDuration);
-        if (location != null) generatedFilters.add(location);
+        if (projectCategory != null)
+            generatedFilters.add(projectCategory);
+        if (projectDuration != null)
+            generatedFilters.add(projectDuration);
+        if (location != null)
+            generatedFilters.add(location);
         return generatedFilters;
     }
 
@@ -270,5 +278,13 @@ public class Project implements Serializable {
 
     public void refreshFilters() {
         this.filters = generateFilters();
+    }
+
+    public List<String> getUploadedFileIds() {
+        return uploadedFileIds;
+    }
+
+    public void setUploadedFileIds(List<String> uploadedFileIds) {
+        this.uploadedFileIds = uploadedFileIds != null ? new ArrayList<>(uploadedFileIds) : new ArrayList<>();
     }
 }

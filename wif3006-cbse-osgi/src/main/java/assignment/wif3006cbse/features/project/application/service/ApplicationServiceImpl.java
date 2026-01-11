@@ -16,7 +16,8 @@ import java.util.Optional;
 
 /**
  * Implementation of ApplicationService.
- * Dependency Depth 2 - depends on ProjectRepository (ProjectDAO), ApplicantRepository (ApplicantDAO).
+ * Dependency Depth 2 - depends on ProjectRepository (ProjectDAO),
+ * ApplicantRepository (ApplicantDAO).
  * Also uses NotificationService to send notifications.
  */
 @Component(service = ApplicationService.class)
@@ -38,32 +39,30 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (projectOpt.isEmpty()) {
             throw new IllegalArgumentException("Project not found: " + model.projectId());
         }
-        
+
         Project project = projectOpt.get();
         if (project.isTaken()) {
             throw new IllegalStateException("Project is already taken");
         }
-        
+
         // Check if user has already applied
         if (applicantRepository.hasUserApplied(model.projectId(), model.userId())) {
             throw new IllegalStateException("User has already applied to this project");
         }
 
         Applicant applicant = new Applicant(
-            model.projectId(),
-            model.userId(),
-            model.coverLetter()
-        );
+                model.projectId(),
+                model.userId(),
+                model.coverLetter());
 
         Applicant saved = applicantRepository.save(applicant);
 
         // Send notification to project owner
         notificationService.sendNotification(
-            project.getPostedBy(),
-            model.userId(),
-            "New application received for project: " + project.getProjectTitle(),
-            NotificationType.APPLICATION_RECEIVED
-        );
+                project.getPostedBy(),
+                model.userId(),
+                "New application received for project: " + project.getProjectTitle(),
+                NotificationType.APPLICATION_RECEIVED);
 
         return toApplicantModel(saved);
     }
@@ -106,29 +105,29 @@ public class ApplicationServiceImpl implements ApplicationService {
 
                                 // Send notification to the accepted applicant
                                 notificationService.sendNotification(
-                                    applicant.getUserId(),
-                                    project.getPostedBy(),
-                                    "Your application for project '" + project.getProjectTitle() + "' has been accepted!",
-                                    NotificationType.APPLICATION_ACCEPTED
-                                );
+                                        applicant.getUserId(),
+                                        project.getPostedBy(),
+                                        "Your application for project '" + project.getProjectTitle()
+                                                + "' has been accepted!",
+                                        NotificationType.APPLICATION_ACCEPTED);
                             });
 
                     // Reject all other pending applications for this project
                     applicantRepository.findByProjectId(applicant.getProjectId()).stream()
-                            .filter(a -> !a.getId().equals(applicationId) && 
-                                        ApplicantStatus.PENDING.equals(a.getStatus()))
+                            .filter(a -> !a.getId().equals(applicationId) &&
+                                    ApplicantStatus.PENDING.equals(a.getStatus()))
                             .forEach(a -> {
                                 a.setStatus(ApplicantStatus.REJECTED);
                                 applicantRepository.save(a);
-                                
+
                                 // Notify rejected applicants
                                 projectRepository.findById(applicant.getProjectId())
-                                    .ifPresent(project -> notificationService.sendNotification(
-                                        a.getUserId(),
-                                        project.getPostedBy(),
-                                        "Your application for project '" + project.getProjectTitle() + "' was not selected.",
-                                        NotificationType.APPLICATION_REJECTED
-                                    ));
+                                        .ifPresent(project -> notificationService.sendNotification(
+                                                a.getUserId(),
+                                                project.getPostedBy(),
+                                                "Your application for project '" + project.getProjectTitle()
+                                                        + "' was not selected.",
+                                                NotificationType.APPLICATION_REJECTED));
                             });
 
                     return applicant;
@@ -146,11 +145,10 @@ public class ApplicationServiceImpl implements ApplicationService {
                     // Send notification to the rejected applicant
                     projectRepository.findById(applicant.getProjectId())
                             .ifPresent(project -> notificationService.sendNotification(
-                                applicant.getUserId(),
-                                project.getPostedBy(),
-                                "Your application for project '" + project.getProjectTitle() + "' was rejected.",
-                                NotificationType.APPLICATION_REJECTED
-                            ));
+                                    applicant.getUserId(),
+                                    project.getPostedBy(),
+                                    "Your application for project '" + project.getProjectTitle() + "' was rejected.",
+                                    NotificationType.APPLICATION_REJECTED));
 
                     return applicant;
                 })
@@ -174,18 +172,18 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean deleteApplication(String applicationId) {
-        return applicantRepository.deleteById(applicationId);
+        applicantRepository.deleteById(applicationId);
+        return true;
     }
 
     private ApplicantModel toApplicantModel(Applicant applicant) {
         return new ApplicantModel(
-            applicant.getId(),
-            applicant.getProjectId(),
-            applicant.getUserId(),
-            applicant.getStatus() != null ? applicant.getStatus().name() : null,
-            applicant.getCoverLetter(),
-            applicant.getAppliedAt(),
-            applicant.getUpdatedAt()
-        );
+                applicant.getId(),
+                applicant.getProjectId(),
+                applicant.getUserId(),
+                applicant.getStatus() != null ? applicant.getStatus().name() : null,
+                applicant.getCoverLetter(),
+                applicant.getAppliedAt(),
+                applicant.getUpdatedAt());
     }
 }

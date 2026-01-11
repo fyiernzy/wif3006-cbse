@@ -15,7 +15,8 @@ import java.util.Optional;
 
 /**
  * Implementation of DeliverableService.
- * Dependency Depth 3 - depends on ProjectRepository (ProjectDAO), UploadedFilesRepository (UploadedFilesDAO), NotificationService.
+ * Dependency Depth 3 - depends on ProjectRepository (ProjectDAO),
+ * UploadedFilesRepository (UploadedFilesDAO), NotificationService.
  */
 @Component(service = DeliverableService.class)
 public class DeliverableServiceImpl implements DeliverableService {
@@ -43,14 +44,13 @@ public class DeliverableServiceImpl implements DeliverableService {
         }
 
         UploadedFile file = new UploadedFile(
-            model.projectId(),
-            model.uploadedBy(),
-            model.fileName(),
-            model.fileUrl(),
-            model.originalFileName(),
-            model.contentType(),
-            model.fileSize()
-        );
+                model.projectId(),
+                model.uploadedBy(),
+                model.fileName(),
+                model.fileUrl(),
+                model.originalFileName(),
+                model.contentType(),
+                model.fileSize());
 
         UploadedFile saved = uploadedFilesRepository.save(file);
         return toUploadedFileModel(saved);
@@ -78,7 +78,8 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     public boolean deleteFile(String fileId) {
-        return uploadedFilesRepository.deleteById(fileId);
+        uploadedFilesRepository.deleteById(fileId);
+        return true;
     }
 
     @Override
@@ -94,14 +95,13 @@ public class DeliverableServiceImpl implements DeliverableService {
         }
 
         Project project = projectOpt.get();
-        
+
         // Notify project owner that deliverables have been submitted
         notificationService.sendNotification(
-            project.getPostedBy(),
-            submitterId,
-            "Deliverables have been submitted for review for project: " + project.getProjectTitle(),
-            NotificationType.FILE_UPLOADED
-        );
+                project.getPostedBy(),
+                submitterId,
+                "Deliverables have been submitted for review for project: " + project.getProjectTitle(),
+                NotificationType.FILE_UPLOADED);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class DeliverableServiceImpl implements DeliverableService {
         }
 
         Project project = projectOpt.get();
-        
+
         // Update project status
         project.setFileAccepted(true);
         project.updateTimestamp();
@@ -120,11 +120,10 @@ public class DeliverableServiceImpl implements DeliverableService {
 
         // Notify the service provider
         notificationService.sendNotification(
-            project.getServiceProvider(),
-            reviewerId,
-            "Your deliverables for project '" + project.getProjectTitle() + "' have been accepted!",
-            NotificationType.FILE_ACCEPTED
-        );
+                project.getServiceProvider(),
+                reviewerId,
+                "Your deliverables for project '" + project.getProjectTitle() + "' have been accepted!",
+                NotificationType.FILE_ACCEPTED);
     }
 
     @Override
@@ -137,27 +136,25 @@ public class DeliverableServiceImpl implements DeliverableService {
         Project project = projectOpt.get();
 
         // Notify the service provider with rejection reason
-        String message = "Your deliverables for project '" + project.getProjectTitle() + 
-                        "' have been rejected. Reason: " + reason;
+        String message = "Your deliverables for project '" + project.getProjectTitle() +
+                "' have been rejected. Reason: " + reason;
         notificationService.sendNotification(
-            project.getServiceProvider(),
-            reviewerId,
-            message,
-            NotificationType.FILE_REJECTED
-        );
+                project.getServiceProvider(),
+                reviewerId,
+                message,
+                NotificationType.FILE_REJECTED);
     }
 
     private UploadedFileModel toUploadedFileModel(UploadedFile file) {
         return new UploadedFileModel(
-            file.getId(),
-            file.getProjectId(),
-            file.getUploadedBy(),
-            file.getFileName(),
-            file.getFileUrl(),
-            file.getOriginalFileName(),
-            file.getContentType(),
-            file.getFileSize(),
-            file.getSubmittedAt()
-        );
+                file.getId(),
+                file.getProjectId(),
+                file.getUploadedBy(),
+                file.getFileName(),
+                file.getFileUrl(),
+                file.getOriginalFileName(),
+                file.getContentType(),
+                file.getFileSize(),
+                file.getSubmittedAt());
     }
 }
