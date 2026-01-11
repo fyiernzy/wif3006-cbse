@@ -611,6 +611,253 @@
             ]
         },
         {
+            "name": "payment",
+            "item": [
+                {
+                    "name": "payment-method",
+                    "item": [
+                        {
+                            "name": "createPaymentMethod",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"userId\": 1,\n    \"type\": \"CARD\",\n    \"provider\": \"Visa\",\n    \"accountNumber\": \"1234-5678-9012-3456\",\n    \"expiryDate\": \"12/30\",\n    \"isDefault\": true\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{paymentMethodUrl}}",
+                                    "host": [
+                                        "{{paymentMethodUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findPaymentMethodById",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentMethodUrl}}/1",
+                                    "host": [
+                                        "{{paymentMethodUrl}}"
+                                    ],
+                                    "path": [
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findPaymentMethodsByUserId",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentMethodUrl}}/user/user-123",
+                                    "host": [
+                                        "{{paymentMethodUrl}}"
+                                    ],
+                                    "path": [
+                                        "user",
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "updatePaymentMethod",
+                            "request": {
+                                "method": "PUT",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"type\": \"CARD\",\n    \"provider\": \"Visa\",\n    \"accountNumber\": \"1234-5678-9012-3456\",\n    \"expiryDate\": \"12/30\",\n    \"isDefault\": true\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{paymentMethodUrl}}",
+                                    "host": [
+                                        "{{paymentMethodUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "deletePaymentMethod",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentMethodUrl}}/1",
+                                    "host": [
+                                        "{{paymentMethodUrl}}"
+                                    ],
+                                    "path": [
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "payment-transaction",
+                    "item": [
+                        {
+                            "name": "createPaymentTransaction",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"userId\": 1,\n    \"projectId\": 1,\n    \"paymentMethodId\": 1,\n    \"amount\": 100.00,\n    \"transactionDate\": \"2023-10-27T10:00:00\",\n    \"status\": \"PENDING\",\n    \"invoiceId\": \"INV-001\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findPaymentTransactionById",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}/1",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ],
+                                    "path": [
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findPaymentTransactionsByUserId",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}/user/user-123",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ],
+                                    "path": [
+                                        "user",
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "findPaymentTransactionsByProjectId",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}/project/1",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ],
+                                    "path": [
+                                        "project",
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "generateInvoice",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}/1/invoice",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ],
+                                    "path": [
+                                        "user-123",
+                                        "invoice"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "updatePaymentTransaction",
+                            "request": {
+                                "method": "PUT",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"projectId\": 1,\n    \"paymentMethodId\": 1,\n    \"amount\": 100.00,\n    \"transactionDate\": \"2023-10-27T10:00:00\",\n    \"status\": \"COMPLETED\",\n    \"invoiceId\": \"INV-001\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "deletePaymentTransaction",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{paymentTransactionUrl}}/1",
+                                    "host": [
+                                        "{{paymentTransactionUrl}}"
+                                    ],
+                                    "path": [
+                                        "user-123"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "New Request",
             "request": {
                 "method": "GET",
@@ -671,6 +918,14 @@
         {
             "key": "projectUrl",
             "value": "http://localhost:8080/project"
+        },
+        {
+            "key": "paymentMethodUrl",
+            "value": "http://localhost:8080/payment-method"
+        },
+        {
+            "key": "paymentTransactionUrl",
+            "value": "http://localhost:8080/payment-transaction"
         }
     ]
 }
