@@ -281,6 +281,213 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "payment",
+					"item": [
+						{
+							"name": "payment-method",
+							"item": [
+								{
+									"name": "createPaymentMethod",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userId\": \"user-123\",\n    \"type\": \"CARD\",\n    \"provider\": \"Visa\",\n    \"accountNumber\": \"1234-5678-9012-3456\",\n    \"expiryDate\": \"12/30\",\n    \"isDefault\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiPaymentMethodUrl}}",
+											"host": [
+												"{{osgiPaymentMethodUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPaymentMethodById",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentMethodUrl}}/1",
+											"host": [
+												"{{osgiPaymentMethodUrl}}"
+											],
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPaymentMethodsByUserId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentMethodUrl}}/user/user-123",
+											"host": [
+												"{{osgiPaymentMethodUrl}}"
+											],
+											"path": [
+												"user",
+												"user-123"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "updatePaymentMethod",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": \"1\",\n    \"type\": \"CARD\",\n    \"provider\": \"Visa\",\n    \"accountNumber\": \"1234-5678-9012-3456\",\n    \"expiryDate\": \"12/30\",\n    \"isDefault\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiPaymentMethodUrl}}",
+											"host": [
+												"{{osgiPaymentMethodUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deletePaymentMethod",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentMethodUrl}}/1",
+											"host": [
+												"{{osgiPaymentMethodUrl}}"
+											],
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "payment-transaction",
+							"item": [
+								{
+									"name": "createPaymentTransaction",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userId\": \"user-123\",\n    \"projectId\": \"project-123\",\n    \"paymentMethodId\": \"1\",\n    \"amount\": 100.00\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{osgiPaymentTransactionUrl}}",
+											"host": [
+												"{{osgiPaymentTransactionUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPaymentTransactionById",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentTransactionUrl}}/1",
+											"host": [
+												"{{osgiPaymentTransactionUrl}}"
+											],
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPaymentTransactionsByUserId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentTransactionUrl}}/user/user-123",
+											"host": [
+												"{{osgiPaymentTransactionUrl}}"
+											],
+											"path": [
+												"user",
+												"user-123"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "findPaymentTransactionsByProjectId",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentTransactionUrl}}/project/project-123",
+											"host": [
+												"{{osgiPaymentTransactionUrl}}"
+											],
+											"path": [
+												"project",
+												"project-123"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "generateInvoice",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{osgiPaymentTransactionUrl}}/1/invoice",
+											"host": [
+												"{{osgiPaymentTransactionUrl}}"
+											],
+											"path": [
+												"1",
+												"invoice"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -928,12 +1135,12 @@
 			"value": ""
 		},
 		{
-			"key": "paymentMethodUrl",
-			"value": "http://localhost:8080/payment-method"
+			"key": "osgiPaymentMethodUrl",
+			"value": "http://localhost:8181/api/v1/payment-methods"
 		},
 		{
-			"key": "paymentTransactionUrl",
-			"value": "http://localhost:8080/payment-transaction"
+			"key": "osgiPaymentTransactionUrl",
+			"value": "http://localhost:8181/api/v1/payment-transactions"
 		}
 	]
 }
