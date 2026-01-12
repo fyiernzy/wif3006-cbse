@@ -34,11 +34,10 @@ public class PostController {
         return postService.findPostById(id);
     }
 
-        @GetMapping("/author/{authorId}")
+    @GetMapping("/author/{authorId}")
     public PagedModel<PostModel> findPostsByAuthorId(@PathVariable @NotBlank String authorId,
                                                      @PageableDefault Pageable pageable) {
-        return new PagedModel<>(
-            postService.findAllByAuthorIdOrderByCreatedAtDesc(authorId, pageable));
+        return new PagedModel<>(postService.findPostsByAuthorId(authorId, pageable));
     }
 
     @PutMapping
