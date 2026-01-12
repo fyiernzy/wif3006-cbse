@@ -1,11 +1,14 @@
 package assignment.wif3006cbse.features.community.service;
 
 import assignment.wif3006cbse.features.community.domain.entity.ThreadEntity;
+import assignment.wif3006cbse.features.community.domain.repository.PostRepository;
 import assignment.wif3006cbse.features.community.domain.repository.ThreadEntityRepository;
 import assignment.wif3006cbse.features.community.dto.thread.CreateThreadEntityModel;
 import assignment.wif3006cbse.features.community.dto.thread.ThreadEntityModel;
 import assignment.wif3006cbse.features.community.dto.thread.UpdateThreadEntityModel;
 import assignment.wif3006cbse.features.community.mapper.ThreadEntityMapper;
+import assignment.wif3006cbse.features.user.domain.UserRepository;
+import assignment.wif3006cbse.utils.Asserts;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -25,9 +28,19 @@ public class ThreadEntityService {
 
     private final ThreadEntityMapper threadEntityMapper;
     private final ThreadEntityRepository threadEntityRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public ThreadEntityModel createThread(@Valid CreateThreadEntityModel createThreadEntityModel) {
+        String postId = createThreadEntityModel.postId();
+        Asserts.state(postRepository.existsById(postId),
+            "Post (id=%s) doesn't exist!".formatted(postId));
+
+        String authorId = createThreadEntityModel.authorId();
+        Asserts.state(userRepository.existsById(authorId),
+            "User (id=%s) doesn't exist!".formatted(authorId));
+
         ThreadEntity thread = threadEntityMapper.toEntity(createThreadEntityModel);
         return threadEntityMapper.toModel(threadEntityRepository.save(thread));
     }
