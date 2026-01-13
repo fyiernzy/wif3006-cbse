@@ -12,4 +12,6 @@ public interface CrudRepository<T, ID> {
     List<T> findAll();
 
     void deleteById(ID id);
+
+    boolean existsById(ID id);
 }

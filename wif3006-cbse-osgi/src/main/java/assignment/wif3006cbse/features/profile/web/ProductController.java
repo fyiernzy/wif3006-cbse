@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Component(service = {ProductController.class}, property = {
     "osgi.jaxrs.resource=true",
-    "osgi.jaxrs.application.select=(osgi.jaxrs.name=profile)"
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
 })
 @Path("/api/v1/products")
 @Produces(MediaType.APPLICATION_JSON)
