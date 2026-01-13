@@ -47,8 +47,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostModel> findAllByAuthorIdOrderByCreatedAtDesc(String authorId,
-                                                                 Pageable pageable) {
+    public Page<PostModel> findPostsByAuthorId(String authorId,
+                                               Pageable pageable) {
         return postRepository.findAllByAuthorIdOrderByCreatedAtDesc(authorId, pageable)
             .map(postMapper::toModel);
     }
