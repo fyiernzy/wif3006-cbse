@@ -4,7 +4,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Thread implements Serializable {
+public class ThreadEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -14,11 +14,11 @@ public class Thread implements Serializable {
     private String postId;
     private String authorId;
 
-    public Thread() {
+    public ThreadEntity() {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Thread(String content, String authorId, String postId) {
+    public ThreadEntity(String content, String authorId, String postId) {
         this.id = UUID.randomUUID().toString();
         this.content = content;
         this.authorId = authorId;

@@ -4,8 +4,8 @@ import assignment.wif3006cbse.features.community.application.dto.thread.CreateTh
 import assignment.wif3006cbse.features.community.application.dto.thread.ThreadModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
 import assignment.wif3006cbse.features.community.application.service.ThreadService;
-import assignment.wif3006cbse.features.community.domain.entity.Thread;
-import assignment.wif3006cbse.features.community.domain.repository.ThreadRepository;
+import assignment.wif3006cbse.features.community.domain.entity.ThreadEntity;
+import assignment.wif3006cbse.features.community.domain.repository.ThreadEntityRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -16,77 +16,77 @@ import java.util.stream.Collectors;
 @Component(service = ThreadService.class)
 public class ThreadServiceImpl implements ThreadService {
 
-    private final ThreadRepository threadRepository;
+    private final ThreadEntityRepository threadEntityRepository;
 
     @Activate
-    public ThreadServiceImpl(@Reference ThreadRepository threadRepository) {
-        this.threadRepository = threadRepository;
+    public ThreadServiceImpl(@Reference ThreadEntityRepository threadEntityRepository) {
+        this.threadEntityRepository = threadEntityRepository;
     }
 
     @Override
     public ThreadModel createThread(CreateThreadModel createThreadModel) {
-        Thread thread = new Thread(
+        ThreadEntity threadEntity = new ThreadEntity(
             createThreadModel.content(),
             createThreadModel.authorId(),
             createThreadModel.postId()
         );
-        Thread saved = threadRepository.save(thread);
+        ThreadEntity saved = threadEntityRepository.save(threadEntity);
         System.out.println("Created thread: " + saved.getId());
         return toModel(saved);
     }
 
     @Override
     public ThreadModel findThreadById(String id) {
-        Thread thread = threadRepository.findById(id)
+        ThreadEntity threadEntity = threadEntityRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Thread not found: " + id));
-        return toModel(thread);
+        return toModel(threadEntity);
     }
 
     @Override
     public List<ThreadModel> findThreadsByAuthorId(String authorId) {
-        return threadRepository.findAllByAuthorId(authorId).stream()
+        return threadEntityRepository.findAllByAuthorId(authorId).stream()
             .map(this::toModel)
             .collect(Collectors.toList());
     }
 
     @Override
     public List<ThreadModel> findThreadsByPostId(String postId) {
-        return threadRepository.findAllByPostId(postId).stream()
+        return threadEntityRepository.findAllByPostId(postId).stream()
             .map(this::toModel)
             .collect(Collectors.toList());
     }
 
     @Override
     public List<ThreadModel> findAllThreads() {
-        return threadRepository.findAll().stream()
+        return threadEntityRepository.findAll().stream()
             .map(this::toModel)
             .collect(Collectors.toList());
     }
 
     @Override
     public ThreadModel updateThread(UpdateThreadModel updateThreadModel) {
-        Thread thread = threadRepository.findById(updateThreadModel.id())
+        ThreadEntity threadEntity = threadEntityRepository.findById(updateThreadModel.id())
             .orElseThrow(
                 () -> new IllegalArgumentException("Thread not found: " + updateThreadModel.id()));
 
-        thread.setContent(updateThreadModel.content());
-        Thread saved = threadRepository.save(thread);
+        threadEntity.setContent(updateThreadModel.content());
+        ThreadEntity saved = threadEntityRepository.save(threadEntity);
         System.out.println("Updated thread: " + saved.getId());
         return toModel(saved);
     }
 
     @Override
     public void deleteThreadById(String id) {
-        threadRepository.deleteById(id);
+        threadEntityRepository.deleteById(id);
         System.out.println("Deleted thread: " + id);
     }
 
-    private ThreadModel toModel(Thread thread) {
+    private ThreadModel toModel(ThreadEntity threadEntity) {
         return new ThreadModel(
-            thread.getId(),
-            thread.getContent(),
-            thread.getAuthorId(),
-            thread.getPostId()
+            threadEntity.getId(),
+            threadEntity.getContent(),
+            threadEntity.getAuthorId(),
+            threadEntity.getPostId()
         );
     }
 }

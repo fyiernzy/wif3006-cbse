@@ -9,11 +9,12 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Component(service = {PostController.class}, property = {
-    "osgi.jaxrs.resource=true",
-    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
+@Component(service = { PostController.class }, property = {
+        "osgi.jaxrs.resource=true",
+        "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
 })
 @Path("/api/v1/posts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,40 +25,43 @@ public class PostController {
     private PostService postService;
 
     @POST
-    public PostModel createPost(CreatePostModel createPostModel) {
-        return postService.createPost(createPostModel);
+    public Response createPost(CreatePostModel createPostModel) {
+        PostModel created = postService.createPost(createPostModel);
+        return Response.status(Response.Status.CREATED).entity(created).build();
     }
 
     @GET
     @Path("/{id}")
-    public PostModel findPostById(@PathParam("id") String id) {
-        return postService.findPostById(id);
+    public Response findPostById(@PathParam("id") String id) {
+        PostModel post = postService.findPostById(id);
+        return Response.ok(post).build();
     }
 
     @GET
     @Path("/author/{id}")
-    public List<PostModel> findPostsByAuthorId(
-        @PathParam("id") String authorId,
-        @QueryParam("page") @DefaultValue("0") int page,
-        @QueryParam("size") @DefaultValue("20") int size
-    ) {
+    public Response findPostsByAuthorId(
+            @PathParam("id") String authorId,
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("size") @DefaultValue("20") int size) {
         List<PostModel> all = postService.findAllByAuthorIdOrderByCreatedAtDesc(authorId);
         int fromIndex = page * size;
         if (fromIndex >= all.size()) {
-            return java.util.Collections.emptyList();
+            return Response.ok(java.util.Collections.emptyList()).build();
         }
         int toIndex = Math.min(fromIndex + size, all.size());
-        return all.subList(fromIndex, toIndex);
+        return Response.ok(all.subList(fromIndex, toIndex)).build();
     }
 
     @PUT
-    public PostModel updatePost(UpdatePostModel updatePostModel) {
-        return postService.updatePost(updatePostModel);
+    public Response updatePost(UpdatePostModel updatePostModel) {
+        PostModel updated = postService.updatePost(updatePostModel);
+        return Response.ok(updated).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public void deletePost(@PathParam("id") String id) {
+    public Response deletePost(@PathParam("id") String id) {
         postService.deletePostById(id);
+        return Response.noContent().build();
     }
 }

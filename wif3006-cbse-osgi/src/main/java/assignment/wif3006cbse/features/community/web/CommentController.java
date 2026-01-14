@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component(service = {CommentController.class}, property = {
@@ -24,24 +25,28 @@ public class CommentController {
     private CommentService commentService;
 
     @POST
-    public CommentModel createComment(CreateCommentModel createCommentModel) {
-        return commentService.createComment(createCommentModel);
+    public Response createComment(CreateCommentModel createCommentModel) {
+        CommentModel created = commentService.createComment(createCommentModel);
+        return Response.status(Response.Status.CREATED).entity(created).build();
     }
 
     @GET
     @Path("/{threadId}")
-    public List<CommentModel> getCommentsByThread(@PathParam("threadId") String threadId) {
-        return commentService.findCommentsByThreadId(threadId);
+    public Response getCommentsByThread(@PathParam("threadId") String threadId) {
+        List<CommentModel> comments = commentService.findCommentsByThreadId(threadId);
+        return Response.ok(comments).build();
     }
 
     @PUT
-    public CommentModel updateComment(UpdateCommentModel updateCommentModel) {
-        return commentService.updateComment(updateCommentModel);
+    public Response updateComment(UpdateCommentModel updateCommentModel) {
+        CommentModel updated = commentService.updateComment(updateCommentModel);
+        return Response.ok(updated).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public void deleteComment(@PathParam("id") String id) {
+    public Response deleteComment(@PathParam("id") String id) {
         commentService.deleteCommentById(id);
+        return Response.noContent().build();
     }
 }

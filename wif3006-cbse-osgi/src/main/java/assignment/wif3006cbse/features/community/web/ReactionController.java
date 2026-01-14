@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component(service = {ReactionController.class}, property = {
@@ -24,36 +25,42 @@ public class ReactionController {
     private ReactionService reactionService;
 
     @POST
-    public ReactionModel createReaction(CreateReactionModel createReactionModel) {
-        return reactionService.createReaction(createReactionModel);
+    public Response createReaction(CreateReactionModel createReactionModel) {
+        ReactionModel created = reactionService.createReaction(createReactionModel);
+        return Response.status(Response.Status.CREATED).entity(created).build();
     }
 
     @GET
     @Path("/post/{postId}")
-    public List<ReactionModel> findReactionsByPostId(@PathParam("postId") String postId) {
-        return reactionService.findReactionsByPostId(postId);
+    public Response findReactionsByPostId(@PathParam("postId") String postId) {
+        List<ReactionModel> reactions = reactionService.findReactionsByPostId(postId);
+        return Response.ok(reactions).build();
     }
 
     @GET
     @Path("/thread/{threadId}")
-    public List<ReactionModel> findReactionsByThreadId(@PathParam("threadId") String threadId) {
-        return reactionService.findReactionsByThreadId(threadId);
+    public Response findReactionsByThreadId(@PathParam("threadId") String threadId) {
+        List<ReactionModel> reactions = reactionService.findReactionsByThreadId(threadId);
+        return Response.ok(reactions).build();
     }
 
     @GET
     @Path("/comment/{commentId}")
-    public List<ReactionModel> findReactionsByCommentId(@PathParam("commentId") String commentId) {
-        return reactionService.findReactionsByCommentId(commentId);
+    public Response findReactionsByCommentId(@PathParam("commentId") String commentId) {
+        List<ReactionModel> reactions = reactionService.findReactionsByCommentId(commentId);
+        return Response.ok(reactions).build();
     }
 
     @PUT
-    public ReactionModel updateReaction(UpdateReactionModel updateReactionModel) {
-        return reactionService.updateReaction(updateReactionModel);
+    public Response updateReaction(UpdateReactionModel updateReactionModel) {
+        ReactionModel updated = reactionService.updateReaction(updateReactionModel);
+        return Response.ok(updated).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public void deleteReaction(@PathParam("id") String id) {
+    public Response deleteReaction(@PathParam("id") String id) {
         reactionService.deleteReactionById(id);
+        return Response.noContent().build();
     }
 }
