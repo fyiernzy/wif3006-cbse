@@ -3,7 +3,7 @@ package assignment.wif3006cbse.features.community.web;
 import assignment.wif3006cbse.features.community.application.dto.thread.CreateThreadModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.ThreadModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
-import assignment.wif3006cbse.features.community.application.service.ThreadService;
+import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class ThreadEntityController {
 
     @Reference
-    private ThreadService threadService;
+    private ThreadEntityService threadService;
 
     @POST
     public Response createThread(CreateThreadModel createThreadModel) {

@@ -6,7 +6,7 @@ import assignment.wif3006cbse.features.community.application.dto.thread.UpdateTh
 
 import java.util.List;
 
-public interface ThreadService {
+public interface ThreadEntityService {
 
     ThreadModel createThread(CreateThreadModel createThreadModel);
 

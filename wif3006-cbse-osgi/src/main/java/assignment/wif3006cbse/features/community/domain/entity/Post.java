@@ -2,6 +2,7 @@ package assignment.wif3006cbse.features.community.domain.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Post implements Serializable {
@@ -13,27 +14,15 @@ public class Post implements Serializable {
     private String authorId;
     private String title;
     private String content;
-    private java.time.LocalDateTime createdAt;
-
-    public Post() {
-        this.id = UUID.randomUUID().toString();
-        this.createdAt = java.time.LocalDateTime.now();
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Post(String authorId, String title, String content) {
         this.id = UUID.randomUUID().toString();
         this.authorId = authorId;
         this.title = title;
         this.content = content;
-        this.createdAt = java.time.LocalDateTime.now();
-    }
-
-    public java.time.LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(java.time.LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 
     public String getId() {
@@ -66,5 +55,21 @@ public class Post implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime updatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

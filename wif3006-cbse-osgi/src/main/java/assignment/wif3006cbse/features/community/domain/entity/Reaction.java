@@ -4,6 +4,7 @@ import assignment.wif3006cbse.features.community.domain.vo.ReactionSourceTypeEnu
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Reaction implements Serializable {
@@ -16,6 +17,8 @@ public class Reaction implements Serializable {
     private String sourceId;
     private String authorId;
     private String reaction;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Reaction() {
         this.id = UUID.randomUUID().toString();
@@ -72,5 +75,21 @@ public class Reaction implements Serializable {
 
     public void setReaction(String reaction) {
         this.reaction = reaction;
+    }
+
+    public LocalDateTime createdAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime updatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

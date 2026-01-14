@@ -2,6 +2,7 @@ package assignment.wif3006cbse.features.community.domain.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Comment implements Serializable {
@@ -13,6 +14,8 @@ public class Comment implements Serializable {
     private String threadId;
     private String authorId;
     private String content;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Comment() {
         this.id = UUID.randomUUID().toString();
@@ -55,5 +58,21 @@ public class Comment implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime createdAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime updatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

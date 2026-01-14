@@ -10,6 +10,7 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,6 @@ public class PostServiceImpl implements PostService {
     @Activate
     public PostServiceImpl(@Reference PostRepository postRepository) {
         this.postRepository = postRepository;
-    }
-
-    // Fallback no-args if DS requires it momentarily before binding (rare in modern
-    // DS but safe)
-    public PostServiceImpl() {
-        this.postRepository = null;
     }
 
     @Override
@@ -75,6 +70,7 @@ public class PostServiceImpl implements PostService {
 
         post.setTitle(updatePostModel.title());
         post.setContent(updatePostModel.content());
+        post.setUpdatedAt(LocalDateTime.now());
         Post saved = postRepository.save(post);
 
         return toModel(saved);
@@ -92,6 +88,7 @@ public class PostServiceImpl implements PostService {
             post.getAuthorId(),
             post.getTitle(),
             post.getContent(),
-            post.getCreatedAt());
+            post.getCreatedAt()
+        );
     }
 }

@@ -10,6 +10,7 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,7 @@ public class CommentServiceImpl implements CommentService {
                 "Comment not found: " + updateCommentModel.id()));
 
         comment.setContent(updateCommentModel.content());
+        comment.setUpdatedAt(LocalDateTime.now());
         Comment saved = commentRepository.save(comment);
 
         return toModel(saved);
@@ -64,6 +66,7 @@ public class CommentServiceImpl implements CommentService {
             comment.getId(),
             comment.getThreadId(),
             comment.getAuthorId(),
-            comment.getContent());
+            comment.getContent()
+        );
     }
 }

@@ -3,23 +3,24 @@ package assignment.wif3006cbse.features.community.application.service.impl;
 import assignment.wif3006cbse.features.community.application.dto.thread.CreateThreadModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.ThreadModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
-import assignment.wif3006cbse.features.community.application.service.ThreadService;
+import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
 import assignment.wif3006cbse.features.community.domain.entity.ThreadEntity;
 import assignment.wif3006cbse.features.community.domain.repository.ThreadEntityRepository;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component(service = ThreadService.class)
-public class ThreadServiceImpl implements ThreadService {
+@Component(service = ThreadEntityService.class)
+public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
 
     private final ThreadEntityRepository threadEntityRepository;
 
     @Activate
-    public ThreadServiceImpl(@Reference ThreadEntityRepository threadEntityRepository) {
+    public ThreadEntityEntityServiceImpl(@Reference ThreadEntityRepository threadEntityRepository) {
         this.threadEntityRepository = threadEntityRepository;
     }
 
@@ -70,6 +71,7 @@ public class ThreadServiceImpl implements ThreadService {
                 () -> new IllegalArgumentException("Thread not found: " + updateThreadModel.id()));
 
         threadEntity.setContent(updateThreadModel.content());
+        threadEntity.setUpdatedAt(LocalDateTime.now());
         ThreadEntity saved = threadEntityRepository.save(threadEntity);
         System.out.println("Updated thread: " + saved.getId());
         return toModel(saved);
