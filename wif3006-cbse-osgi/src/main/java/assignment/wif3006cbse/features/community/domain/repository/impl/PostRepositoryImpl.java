@@ -5,6 +5,7 @@ import assignment.wif3006cbse.features.community.domain.repository.PostRepositor
 import assignment.wif3006cbse.shared.spi.FileBasedRepository;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,8 @@ public class PostRepositoryImpl extends FileBasedRepository<Post, String> implem
     @Override
     public List<Post> findAllByAuthorId(String authorId) {
         return getStore().values().stream()
-            .filter(p -> p.getAuthorId().equals(authorId))
+            .filter(post -> post.getAuthorId().equals(authorId))
+            .sorted(Comparator.comparing(Post::getCreatedAt))
             .collect(Collectors.toList());
     }
 }
