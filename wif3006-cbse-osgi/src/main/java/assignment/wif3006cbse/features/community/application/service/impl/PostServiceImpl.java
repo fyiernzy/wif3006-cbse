@@ -46,18 +46,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostModel> findAllByAuthorIdOrderByCreatedAtDesc(String authorId) {
         return postRepository.findAllByAuthorId(authorId).stream()
-            .sorted((p1, p2) -> {
-                if (p1.getCreatedAt() == null && p2.getCreatedAt() == null) {
-                    return 0;
-                }
-                if (p1.getCreatedAt() == null) {
-                    return 1;
-                }
-                if (p2.getCreatedAt() == null) {
-                    return -1;
-                }
-                return p2.getCreatedAt().compareTo(p1.getCreatedAt());
-            })
             .map(this::toModel)
             .collect(Collectors.toList());
     }
