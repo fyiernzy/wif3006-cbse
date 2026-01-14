@@ -21,7 +21,7 @@ public class PostRepositoryImpl extends FileBasedRepository<Post, String> implem
     public List<Post> findAllByAuthorId(String authorId) {
         return getStore().values().stream()
             .filter(post -> post.getAuthorId().equals(authorId))
-            .sorted(Comparator.comparing(Post::getCreatedAt))
+            .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
             .collect(Collectors.toList());
     }
 }

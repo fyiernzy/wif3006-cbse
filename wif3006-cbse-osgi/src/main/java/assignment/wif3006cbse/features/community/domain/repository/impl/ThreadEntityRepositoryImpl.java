@@ -17,13 +17,6 @@ public class ThreadEntityRepositoryImpl extends FileBasedRepository<ThreadEntity
     }
 
     @Override
-    public List<ThreadEntity> findAllByAuthorId(String authorId) {
-        return getStore().values().stream()
-            .filter(t -> t.getAuthorId().equals(authorId))
-            .collect(Collectors.toList());
-    }
-
-    @Override
     public List<ThreadEntity> findAllByPostId(String postId) {
         return getStore().values().stream()
             .filter(t -> postId.equals(t.getPostId()))

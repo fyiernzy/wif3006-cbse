@@ -12,8 +12,6 @@ public interface ThreadEntityService {
 
     ThreadModel findThreadById(String id);
 
-    List<ThreadModel> findThreadsByAuthorId(String authorId);
-
     List<ThreadModel> findThreadsByPostId(String postId);
 
     List<ThreadModel> findAllThreads();

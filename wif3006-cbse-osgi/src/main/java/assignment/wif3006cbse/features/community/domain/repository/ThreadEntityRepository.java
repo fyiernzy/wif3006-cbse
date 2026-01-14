@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface ThreadEntityRepository extends CrudRepository<ThreadEntity, String> {
 
-    List<ThreadEntity> findAllByAuthorId(String authorId);
-
     List<ThreadEntity> findAllByPostId(String postId);
 }

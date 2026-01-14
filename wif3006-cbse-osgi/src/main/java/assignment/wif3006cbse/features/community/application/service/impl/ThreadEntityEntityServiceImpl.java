@@ -44,13 +44,6 @@ public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
     }
 
     @Override
-    public List<ThreadModel> findThreadsByAuthorId(String authorId) {
-        return threadEntityRepository.findAllByAuthorId(authorId).stream()
-            .map(this::toModel)
-            .collect(Collectors.toList());
-    }
-
-    @Override
     public List<ThreadModel> findThreadsByPostId(String postId) {
         return threadEntityRepository.findAllByPostId(postId).stream()
             .map(this::toModel)
