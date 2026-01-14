@@ -17,10 +17,6 @@ public class Comment implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Comment() {
-        this.id = UUID.randomUUID().toString();
-    }
-
     public Comment(String threadId, String authorId, String content) {
         this.id = UUID.randomUUID().toString();
         this.threadId = threadId;

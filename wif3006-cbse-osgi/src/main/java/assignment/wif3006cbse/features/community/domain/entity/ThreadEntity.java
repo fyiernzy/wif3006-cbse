@@ -17,10 +17,6 @@ public class ThreadEntity implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ThreadEntity() {
-        this.id = UUID.randomUUID().toString();
-    }
-
     public ThreadEntity(String content, String authorId, String postId) {
         this.id = UUID.randomUUID().toString();
         this.content = content;

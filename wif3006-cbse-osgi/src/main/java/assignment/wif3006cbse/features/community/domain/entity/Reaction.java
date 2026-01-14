@@ -20,10 +20,6 @@ public class Reaction implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Reaction() {
-        this.id = UUID.randomUUID().toString();
-    }
-
     public Reaction(
         ReactionSourceTypeEnum sourceType,
         String sourceId,
