@@ -1,22 +1,18 @@
 package assignment.wif3006cbse.features.community.application.service;
 
 import assignment.wif3006cbse.features.community.application.dto.thread.CreateThreadModel;
-import assignment.wif3006cbse.features.community.application.dto.thread.ThreadModel;
+import assignment.wif3006cbse.features.community.application.dto.thread.ThreadEntityModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
 
 import java.util.List;
 
 public interface ThreadEntityService {
 
-    ThreadModel createThread(CreateThreadModel createThreadModel);
+    ThreadEntityModel createThread(CreateThreadModel createThreadModel);
 
-    ThreadModel findThreadById(String id);
+    List<ThreadEntityModel> findThreadsByPostId(String postId);
 
-    List<ThreadModel> findThreadsByPostId(String postId);
-
-    List<ThreadModel> findAllThreads();
-
-    ThreadModel updateThread(UpdateThreadModel updateThreadModel);
+    ThreadEntityModel updateThread(UpdateThreadModel updateThreadModel);
 
     void deleteThreadById(String id);
 }

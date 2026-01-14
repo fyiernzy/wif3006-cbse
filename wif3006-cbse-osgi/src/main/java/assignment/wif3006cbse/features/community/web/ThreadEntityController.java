@@ -1,7 +1,7 @@
 package assignment.wif3006cbse.features.community.web;
 
 import assignment.wif3006cbse.features.community.application.dto.thread.CreateThreadModel;
-import assignment.wif3006cbse.features.community.application.dto.thread.ThreadModel;
+import assignment.wif3006cbse.features.community.application.dto.thread.ThreadEntityModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
 import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
 import org.osgi.service.component.annotations.Component;
@@ -26,40 +26,20 @@ public class ThreadEntityController {
 
     @POST
     public Response createThread(CreateThreadModel createThreadModel) {
-        ThreadModel created = threadService.createThread(createThreadModel);
+        ThreadEntityModel created = threadService.createThread(createThreadModel);
         return Response.status(Response.Status.CREATED).entity(created).build();
-    }
-
-    @GET
-    @Path("/{id}")
-    public Response getThread(@PathParam("id") String id) {
-        ThreadModel thread = threadService.findThreadById(id);
-        return Response.ok(thread).build();
-    }
-
-    @GET
-    public Response getAllThreads() {
-        List<ThreadModel> threads = threadService.findAllThreads();
-        return Response.ok(threads).build();
     }
 
     @GET
     @Path("/post/{postId}")
     public Response getThreadsByPostId(@PathParam("postId") String postId) {
-        List<ThreadModel> threads = threadService.findThreadsByPostId(postId);
+        List<ThreadEntityModel> threads = threadService.findThreadsByPostId(postId);
         return Response.ok(threads).build();
     }
 
     @PUT
-    @Path("/{id}")
-    public Response updateThread(@PathParam("id") String id,
-                                 UpdateThreadModel updateThreadModel) {
-        // Ensure ID matches or handle separately. Here assuming Model contains correct
-        // data.
-        if (!id.equals(updateThreadModel.id())) {
-            throw new IllegalArgumentException("ID mismatch");
-        }
-        ThreadModel updated = threadService.updateThread(updateThreadModel);
+    public Response updateThread(UpdateThreadModel updateThreadModel) {
+        ThreadEntityModel updated = threadService.updateThread(updateThreadModel);
         return Response.ok(updated).build();
     }
 

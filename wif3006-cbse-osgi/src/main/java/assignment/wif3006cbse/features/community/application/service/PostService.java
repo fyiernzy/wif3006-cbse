@@ -12,7 +12,7 @@ public interface PostService {
 
     PostModel findPostById(String id);
 
-    List<PostModel> findAllByAuthorIdOrderByCreatedAtDesc(String authorId);
+    List<PostModel> findPostsByAuthorId(String authorId);
 
     PostModel updatePost(UpdatePostModel updatePostModel);
 

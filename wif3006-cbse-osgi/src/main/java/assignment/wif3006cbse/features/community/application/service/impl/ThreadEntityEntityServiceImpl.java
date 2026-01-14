@@ -1,7 +1,7 @@
 package assignment.wif3006cbse.features.community.application.service.impl;
 
 import assignment.wif3006cbse.features.community.application.dto.thread.CreateThreadModel;
-import assignment.wif3006cbse.features.community.application.dto.thread.ThreadModel;
+import assignment.wif3006cbse.features.community.application.dto.thread.ThreadEntityModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
 import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
 import assignment.wif3006cbse.features.community.domain.entity.ThreadEntity;
@@ -25,7 +25,7 @@ public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
     }
 
     @Override
-    public ThreadModel createThread(CreateThreadModel createThreadModel) {
+    public ThreadEntityModel createThread(CreateThreadModel createThreadModel) {
         ThreadEntity threadEntity = new ThreadEntity(
             createThreadModel.content(),
             createThreadModel.authorId(),
@@ -37,28 +37,14 @@ public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
     }
 
     @Override
-    public ThreadModel findThreadById(String id) {
-        ThreadEntity threadEntity = threadEntityRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Thread not found: " + id));
-        return toModel(threadEntity);
-    }
-
-    @Override
-    public List<ThreadModel> findThreadsByPostId(String postId) {
+    public List<ThreadEntityModel> findThreadsByPostId(String postId) {
         return threadEntityRepository.findAllByPostId(postId).stream()
             .map(this::toModel)
             .collect(Collectors.toList());
     }
 
     @Override
-    public List<ThreadModel> findAllThreads() {
-        return threadEntityRepository.findAll().stream()
-            .map(this::toModel)
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    public ThreadModel updateThread(UpdateThreadModel updateThreadModel) {
+    public ThreadEntityModel updateThread(UpdateThreadModel updateThreadModel) {
         ThreadEntity threadEntity = threadEntityRepository.findById(updateThreadModel.id())
             .orElseThrow(
                 () -> new IllegalArgumentException("Thread not found: " + updateThreadModel.id()));
@@ -76,8 +62,8 @@ public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
         System.out.println("Deleted thread: " + id);
     }
 
-    private ThreadModel toModel(ThreadEntity threadEntity) {
-        return new ThreadModel(
+    private ThreadEntityModel toModel(ThreadEntity threadEntity) {
+        return new ThreadEntityModel(
             threadEntity.getId(),
             threadEntity.getContent(),
             threadEntity.getAuthorId(),

@@ -43,7 +43,7 @@ public class PostController {
             @PathParam("id") String authorId,
             @QueryParam("page") @DefaultValue("0") int page,
             @QueryParam("size") @DefaultValue("20") int size) {
-        List<PostModel> all = postService.findAllByAuthorIdOrderByCreatedAtDesc(authorId);
+        List<PostModel> all = postService.findPostsByAuthorId(authorId);
         int fromIndex = page * size;
         if (fromIndex >= all.size()) {
             return Response.ok(java.util.Collections.emptyList()).build();
