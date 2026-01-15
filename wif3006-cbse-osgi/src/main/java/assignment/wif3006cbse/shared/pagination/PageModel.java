@@ -1,7 +1,10 @@
 package assignment.wif3006cbse.shared.pagination;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.List;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public final class PageModel<T> {
 
     private final List<T> content;
