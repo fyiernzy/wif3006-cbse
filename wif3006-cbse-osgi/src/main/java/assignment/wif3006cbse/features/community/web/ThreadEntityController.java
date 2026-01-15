@@ -4,6 +4,8 @@ import assignment.wif3006cbse.features.community.application.dto.thread.CreateTh
 import assignment.wif3006cbse.features.community.application.dto.thread.ThreadEntityModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
 import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
+import assignment.wif3006cbse.shared.pagination.PageModel;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -32,9 +34,12 @@ public class ThreadEntityController {
 
     @GET
     @Path("/post/{postId}")
-    public Response getThreadsByPostId(@PathParam("postId") String postId) {
+    public Response findThreadsByPostId(@PathParam("postId") String postId,
+                                        @QueryParam("page") @DefaultValue("0") int page,
+                                        @QueryParam("size") @DefaultValue("20") int size) {
         List<ThreadEntityModel> threads = threadService.findThreadsByPostId(postId);
-        return Response.ok(threads).build();
+        PageModel<ThreadEntityModel> pageModel = PageUtils.toPage(threads, page, size);
+        return Response.ok(pageModel).build();
     }
 
     @PUT
