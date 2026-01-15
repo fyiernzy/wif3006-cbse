@@ -25,12 +25,12 @@ public class ProfileUserController {
     }
 
     @GetMapping("/{id}")
-    public UserModel findUserById(@PathVariable @NotBlank String id) {
+    public UserModel findUserById(@PathVariable("id") @NotBlank String id) {
         return userService.findUserById(id);
     }
 
     @GetMapping("/email/{email}")
-    public UserModel findUserByEmail(@PathVariable @NotBlank String email) {
+    public UserModel findUserByEmail(@PathVariable("email") @NotBlank String email) {
         return userService.findUserByEmail(email);
     }
 
@@ -45,18 +45,18 @@ public class ProfileUserController {
     }
 
     @PutMapping("/{id}/visibility")
-    public UserModel updateVisibility(@PathVariable @NotBlank String id, 
-                                      @RequestParam @NotNull Boolean isPublic) {
+    public UserModel updateVisibility(@PathVariable("id") @NotBlank String id, 
+                                      @RequestParam("isPublic") @NotNull Boolean isPublic) {
         return userService.updateVisibility(id, isPublic);
     }
 
     @GetMapping("/{id}/public")
-    public PublicUserModel getPublicProfile(@PathVariable @NotBlank String id) {
+    public PublicUserModel getPublicProfile(@PathVariable("id") @NotBlank String id) {
         return userService.getPublicProfile(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable @NotBlank String id) {
+    public void deleteUser(@PathVariable("id") @NotBlank String id) {
         userService.deleteUserById(id);
     }
 }
