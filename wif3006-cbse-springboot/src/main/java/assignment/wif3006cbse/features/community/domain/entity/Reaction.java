@@ -27,6 +27,6 @@ public class Reaction extends Auditable {
     @Column(name = "author_id", nullable = false, updatable = false)
     private String authorId;
 
-    @Column(name = "reaction", updatable = false, nullable = false)
+    @Column(name = "reaction", nullable = false)
     private String reaction;
 }

@@ -32,7 +32,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                   @NonNull ServerHttpRequest request,
                                   @NonNull ServerHttpResponse response) {
         if (Validators.isNull(body)) {
-            return ResponseEntity.ok();
+            return ResponseEntity.ok().build();
         }
 
         if (response instanceof ServletServerHttpResponse servletResponse) {
