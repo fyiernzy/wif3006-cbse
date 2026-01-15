@@ -1,6 +1,5 @@
 package assignment.wif3006cbse.features.community.web;
 
-import assignment.wif3006cbse.features.community.application.dto.comment.CommentModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.CreateReactionModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.ReactionModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.UpdateReactionModel;
