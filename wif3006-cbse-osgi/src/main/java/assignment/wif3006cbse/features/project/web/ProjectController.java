@@ -55,8 +55,8 @@ public class ProjectController {
      * Get all projects.
      */
     @GET
-    public Response getAllProjects() {
-        List<ProjectListModel> projects = projectService.getAllProjects();
+    public Response getAllProjects(@QueryParam("q") String q) {
+        List<ProjectListModel> projects = projectService.getAllProjects(q);
         return Response.ok(projects).build();
     }
 

@@ -68,13 +68,13 @@ public class ProjectController {
     }
 
     @PostMapping("/applying-project")
-    public void addApplyingProject(@RequestBody @Valid ProjectUserRequest request) {
-        projectService.addApplyingProject(request.userId(), request.projectId());
+    public UserModel addApplyingProject(@RequestBody @Valid ProjectUserRequest request) {
+        return projectService.addApplyingProject(request.userId(), request.projectId());
     }
 
     @PutMapping("/applying-project/remove")
-    public void removeApplyingProject(@RequestBody @Valid ProjectUserRequest request) {
-        projectService.removeApplyingProject(request.userId(), request.projectId());
+    public UserModel removeApplyingProject(@RequestBody @Valid ProjectUserRequest request) {
+        return projectService.removeApplyingProject(request.userId(), request.projectId());
     }
 
     @GetMapping("/applying-project/{userId}")
@@ -115,7 +115,8 @@ public class ProjectController {
         Resource resource = projectService.downloadProjectFiles(projectId);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"project_" + projectId + "_files.zip\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"project_"
+                        + projectId + "_files.zip\"")
                 .body(resource);
     }
 }
