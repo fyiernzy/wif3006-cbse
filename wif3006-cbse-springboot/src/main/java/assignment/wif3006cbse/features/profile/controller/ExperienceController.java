@@ -31,17 +31,17 @@ public class ExperienceController {
     }
 
     @GetMapping("/{id}")
-    public ExperienceModel findExperienceById(@PathVariable @NotBlank String id) {
+    public ExperienceModel findExperienceById(@PathVariable("id") @NotBlank String id) {
         return experienceService.findExperienceById(id);
     }
 
     @GetMapping("/user/{userId}")
-    public List<ExperienceModel> findAllByUserId(@PathVariable @NotBlank String userId) {
+    public List<ExperienceModel> findAllByUserId(@PathVariable("userId") @NotBlank String userId) {
         return experienceService.findAllByUserId(userId);
     }
 
     @GetMapping("/user/{userId}/paged")
-    public PagedModel<ExperienceModel> findAllByUserIdPaged(@PathVariable @NotBlank String userId,
+    public PagedModel<ExperienceModel> findAllByUserIdPaged(@PathVariable("userId") @NotBlank String userId,
                                                             @PageableDefault Pageable pageable) {
         return new PagedModel<>(experienceService.findAllByUserId(userId, pageable));
     }
@@ -52,7 +52,7 @@ public class ExperienceController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteExperience(@PathVariable @NotBlank String id) {
+    public void deleteExperience(@PathVariable("id") @NotBlank String id) {
         experienceService.deleteExperienceById(id);
     }
 }

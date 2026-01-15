@@ -1,9 +1,13 @@
 package assignment.wif3006cbse.features.profile.service;
 
+import assignment.wif3006cbse.features.profile.domain.entity.JobHistory;
 import assignment.wif3006cbse.features.profile.domain.repository.JobHistoryRepository;
+import assignment.wif3006cbse.features.profile.dto.jobhistory.CreateJobHistoryModel;
 import assignment.wif3006cbse.features.profile.dto.jobhistory.JobHistoryModel;
+import assignment.wif3006cbse.features.profile.dto.jobhistory.UpdateJobHistoryModel;
 import assignment.wif3006cbse.features.profile.mapper.JobHistoryMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +27,15 @@ public class JobHistoryService {
 
     private final JobHistoryMapper jobHistoryMapper;
     private final JobHistoryRepository jobHistoryRepository;
+
+    @Transactional
+    public JobHistoryModel createJobHistory(@Valid CreateJobHistoryModel createJobHistoryModel) {
+        JobHistory jobHistory = jobHistoryMapper.toEntity(createJobHistoryModel);
+        if (jobHistory.getStatus() == null || jobHistory.getStatus().isBlank()) {
+            jobHistory.setStatus("Ongoing");
+        }
+        return jobHistoryMapper.toModel(jobHistoryRepository.save(jobHistory));
+    }
 
     @Transactional(readOnly = true)
     public JobHistoryModel findJobHistoryById(@NotBlank String id) {
@@ -51,5 +64,18 @@ public class JobHistoryService {
             .stream()
             .map(jobHistoryMapper::toModel)
             .toList();
+    }
+
+    @Transactional
+    public JobHistoryModel updateJobHistory(@Valid UpdateJobHistoryModel updateJobHistoryModel) {
+        JobHistory jobHistory = jobHistoryRepository.findById(updateJobHistoryModel.id())
+            .orElseThrow(() -> new EntityNotFoundException("Job history not found."));
+        jobHistoryMapper.updateEntityFromUpdateModel(jobHistory, updateJobHistoryModel);
+        return jobHistoryMapper.toModel(jobHistoryRepository.save(jobHistory));
+    }
+
+    @Transactional
+    public void deleteJobHistoryById(@NotBlank String id) {
+        jobHistoryRepository.deleteById(id);
     }
 }
