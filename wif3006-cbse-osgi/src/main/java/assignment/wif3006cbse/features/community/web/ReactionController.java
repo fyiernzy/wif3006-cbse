@@ -1,9 +1,12 @@
 package assignment.wif3006cbse.features.community.web;
 
+import assignment.wif3006cbse.features.community.application.dto.comment.CommentModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.CreateReactionModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.ReactionModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.UpdateReactionModel;
 import assignment.wif3006cbse.features.community.application.service.ReactionService;
+import assignment.wif3006cbse.shared.pagination.PageModel;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -32,23 +35,32 @@ public class ReactionController {
 
     @GET
     @Path("/post/{postId}")
-    public Response findReactionsByPostId(@PathParam("postId") String postId) {
+    public Response findReactionsByPostId(@PathParam("postId") String postId,
+                                          @QueryParam("page") @DefaultValue("0") int page,
+                                          @QueryParam("size") @DefaultValue("20") int size) {
         List<ReactionModel> reactions = reactionService.findReactionsByPostId(postId);
-        return Response.ok(reactions).build();
+        PageModel<ReactionModel> pageModel = PageUtils.toPage(reactions, page, size);
+        return Response.ok(pageModel).build();
     }
 
     @GET
     @Path("/thread/{threadId}")
-    public Response findReactionsByThreadId(@PathParam("threadId") String threadId) {
+    public Response findReactionsByThreadId(@PathParam("threadId") String threadId,
+                                            @QueryParam("page") @DefaultValue("0") int page,
+                                            @QueryParam("size") @DefaultValue("20") int size) {
         List<ReactionModel> reactions = reactionService.findReactionsByThreadId(threadId);
-        return Response.ok(reactions).build();
+        PageModel<ReactionModel> pageModel = PageUtils.toPage(reactions, page, size);
+        return Response.ok(pageModel).build();
     }
 
     @GET
     @Path("/comment/{commentId}")
-    public Response findReactionsByCommentId(@PathParam("commentId") String commentId) {
+    public Response findReactionsByCommentId(@PathParam("commentId") String commentId,
+                                             @QueryParam("page") @DefaultValue("0") int page,
+                                             @QueryParam("size") @DefaultValue("20") int size) {
         List<ReactionModel> reactions = reactionService.findReactionsByCommentId(commentId);
-        return Response.ok(reactions).build();
+        PageModel<ReactionModel> pageModel = PageUtils.toPage(reactions, page, size);
+        return Response.ok(pageModel).build();
     }
 
     @PUT
