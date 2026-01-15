@@ -52,14 +52,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductModel> findAllByUserId(String userId) {
         return productRepository.findAllByUserId(userId).stream()
-            .map(this::toModel)
+            .map(p -> toModel(p))
             .collect(Collectors.toList());
     }
 
     @Override
     public List<ProductModel> findAllByCategory(String category) {
         return productRepository.findAllByCategory(category).stream()
-            .map(this::toModel)
+            .map(p -> toModel(p))
             .collect(Collectors.toList());
     }
 
