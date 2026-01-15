@@ -7,12 +7,14 @@ import assignment.wif3006cbse.features.community.application.service.ReactionSer
 import assignment.wif3006cbse.features.community.domain.entity.Reaction;
 import assignment.wif3006cbse.features.community.domain.repository.ReactionRepository;
 import assignment.wif3006cbse.features.community.domain.vo.ReactionSourceTypeEnum;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Pageable;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component(service = ReactionService.class)
@@ -37,27 +39,30 @@ public class ReactionServiceImpl implements ReactionService {
     }
 
     @Override
-    public List<ReactionModel> findReactionsByPostId(String postId) {
-        return reactionRepository.findAllBySourceTypeAndSourceId(ReactionSourceTypeEnum.POST,
+    public Page<ReactionModel> findReactionsByPostId(String postId, Pageable pageable) {
+        return PageUtils.toPage(reactionRepository.findAllBySourceTypeAndSourceId(
+                ReactionSourceTypeEnum.POST,
                 postId).stream()
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()), pageable);
     }
 
     @Override
-    public List<ReactionModel> findReactionsByThreadId(String threadId) {
-        return reactionRepository.findAllBySourceTypeAndSourceId(ReactionSourceTypeEnum.THREAD,
+    public Page<ReactionModel> findReactionsByThreadId(String threadId, Pageable pageable) {
+        return PageUtils.toPage(reactionRepository.findAllBySourceTypeAndSourceId(
+                ReactionSourceTypeEnum.THREAD,
                 threadId).stream()
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()), pageable);
     }
 
     @Override
-    public List<ReactionModel> findReactionsByCommentId(String commentId) {
-        return reactionRepository.findAllBySourceTypeAndSourceId(ReactionSourceTypeEnum.COMMENT,
+    public Page<ReactionModel> findReactionsByCommentId(String commentId, Pageable pageable) {
+        return PageUtils.toPage(reactionRepository.findAllBySourceTypeAndSourceId(
+                ReactionSourceTypeEnum.COMMENT,
                 commentId).stream()
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()), pageable);
     }
 
     @Override

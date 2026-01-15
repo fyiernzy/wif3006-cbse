@@ -6,12 +6,14 @@ import assignment.wif3006cbse.features.community.application.dto.post.UpdatePost
 import assignment.wif3006cbse.features.community.application.service.PostService;
 import assignment.wif3006cbse.features.community.domain.entity.Post;
 import assignment.wif3006cbse.features.community.domain.repository.PostRepository;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Pageable;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component(service = PostService.class)
@@ -44,10 +46,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostModel> findPostsByAuthorId(String authorId) {
-        return postRepository.findAllByAuthorId(authorId).stream()
+    public Page<PostModel> findPostsByAuthorId(String authorId, Pageable pageable) {
+        return PageUtils.toPage(postRepository.findAllByAuthorId(authorId).stream()
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()), pageable);
     }
 
     @Override

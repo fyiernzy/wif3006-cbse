@@ -4,15 +4,15 @@ import assignment.wif3006cbse.features.community.application.dto.reaction.Create
 import assignment.wif3006cbse.features.community.application.dto.reaction.ReactionModel;
 import assignment.wif3006cbse.features.community.application.dto.reaction.UpdateReactionModel;
 import assignment.wif3006cbse.features.community.application.service.ReactionService;
-import assignment.wif3006cbse.shared.pagination.PageModel;
-import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.Pageable;
+import assignment.wif3006cbse.shared.pagination.PagedModel;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component(service = {ReactionController.class}, property = {
     "osgi.jaxrs.resource=true",
@@ -37,8 +37,9 @@ public class ReactionController {
     public Response findReactionsByPostId(@PathParam("postId") String postId,
                                           @QueryParam("page") @DefaultValue("0") int page,
                                           @QueryParam("size") @DefaultValue("20") int size) {
-        List<ReactionModel> reactions = reactionService.findReactionsByPostId(postId);
-        PageModel<ReactionModel> pageModel = PageUtils.toPage(reactions, page, size);
+        Page<ReactionModel> reactions = reactionService.findReactionsByPostId(postId,
+            Pageable.of(page, size));
+        PagedModel<ReactionModel> pageModel = new PagedModel<>(reactions);
         return Response.ok(pageModel).build();
     }
 
@@ -47,8 +48,9 @@ public class ReactionController {
     public Response findReactionsByThreadId(@PathParam("threadId") String threadId,
                                             @QueryParam("page") @DefaultValue("0") int page,
                                             @QueryParam("size") @DefaultValue("20") int size) {
-        List<ReactionModel> reactions = reactionService.findReactionsByThreadId(threadId);
-        PageModel<ReactionModel> pageModel = PageUtils.toPage(reactions, page, size);
+        Page<ReactionModel> reactions = reactionService.findReactionsByThreadId(threadId,
+            Pageable.of(page, size));
+        PagedModel<ReactionModel> pageModel = new PagedModel<>(reactions);
         return Response.ok(pageModel).build();
     }
 
@@ -57,8 +59,9 @@ public class ReactionController {
     public Response findReactionsByCommentId(@PathParam("commentId") String commentId,
                                              @QueryParam("page") @DefaultValue("0") int page,
                                              @QueryParam("size") @DefaultValue("20") int size) {
-        List<ReactionModel> reactions = reactionService.findReactionsByCommentId(commentId);
-        PageModel<ReactionModel> pageModel = PageUtils.toPage(reactions, page, size);
+        Page<ReactionModel> reactions = reactionService.findReactionsByCommentId(commentId,
+            Pageable.of(page, size));
+        PagedModel<ReactionModel> pageModel = new PagedModel<>(reactions);
         return Response.ok(pageModel).build();
     }
 

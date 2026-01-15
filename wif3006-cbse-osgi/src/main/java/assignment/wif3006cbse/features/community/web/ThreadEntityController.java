@@ -4,15 +4,15 @@ import assignment.wif3006cbse.features.community.application.dto.thread.CreateTh
 import assignment.wif3006cbse.features.community.application.dto.thread.ThreadEntityModel;
 import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
 import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
-import assignment.wif3006cbse.shared.pagination.PageModel;
-import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.Pageable;
+import assignment.wif3006cbse.shared.pagination.PagedModel;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component(service = {ThreadEntityController.class}, property = {
     "osgi.jaxrs.resource=true",
@@ -37,8 +37,9 @@ public class ThreadEntityController {
     public Response findThreadsByPostId(@PathParam("postId") String postId,
                                         @QueryParam("page") @DefaultValue("0") int page,
                                         @QueryParam("size") @DefaultValue("20") int size) {
-        List<ThreadEntityModel> threads = threadService.findThreadsByPostId(postId);
-        PageModel<ThreadEntityModel> pageModel = PageUtils.toPage(threads, page, size);
+        Page<ThreadEntityModel> threads = threadService.findThreadsByPostId(postId,
+            Pageable.of(page, size));
+        PagedModel<ThreadEntityModel> pageModel = new PagedModel<>(threads);
         return Response.ok(pageModel).build();
     }
 

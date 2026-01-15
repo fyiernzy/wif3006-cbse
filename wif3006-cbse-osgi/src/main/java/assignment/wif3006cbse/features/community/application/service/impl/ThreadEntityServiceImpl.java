@@ -6,21 +6,23 @@ import assignment.wif3006cbse.features.community.application.dto.thread.UpdateTh
 import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
 import assignment.wif3006cbse.features.community.domain.entity.ThreadEntity;
 import assignment.wif3006cbse.features.community.domain.repository.ThreadEntityRepository;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Pageable;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component(service = ThreadEntityService.class)
-public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
+public class ThreadEntityServiceImpl implements ThreadEntityService {
 
     private final ThreadEntityRepository threadEntityRepository;
 
     @Activate
-    public ThreadEntityEntityServiceImpl(@Reference ThreadEntityRepository threadEntityRepository) {
+    public ThreadEntityServiceImpl(@Reference ThreadEntityRepository threadEntityRepository) {
         this.threadEntityRepository = threadEntityRepository;
     }
 
@@ -37,10 +39,10 @@ public class ThreadEntityEntityServiceImpl implements ThreadEntityService {
     }
 
     @Override
-    public List<ThreadEntityModel> findThreadsByPostId(String postId) {
-        return threadEntityRepository.findAllByPostId(postId).stream()
+    public Page<ThreadEntityModel> findThreadsByPostId(String postId, Pageable pageable) {
+        return PageUtils.toPage(threadEntityRepository.findAllByPostId(postId).stream()
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()), pageable);
     }
 
     @Override

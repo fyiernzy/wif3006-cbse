@@ -4,15 +4,15 @@ import assignment.wif3006cbse.features.community.application.dto.comment.Comment
 import assignment.wif3006cbse.features.community.application.dto.comment.CreateCommentModel;
 import assignment.wif3006cbse.features.community.application.dto.comment.UpdateCommentModel;
 import assignment.wif3006cbse.features.community.application.service.CommentService;
-import assignment.wif3006cbse.shared.pagination.PageModel;
-import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.Pageable;
+import assignment.wif3006cbse.shared.pagination.PagedModel;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component(service = {CommentController.class}, property = {
     "osgi.jaxrs.resource=true",
@@ -37,8 +37,9 @@ public class CommentController {
     public Response findCommentsByThreadId(@PathParam("threadId") String threadId,
                                            @QueryParam("page") @DefaultValue("0") int page,
                                            @QueryParam("size") @DefaultValue("20") int size) {
-        List<CommentModel> comments = commentService.findCommentsByThreadId(threadId);
-        PageModel<CommentModel> pageModel = PageUtils.toPage(comments, page, size);
+        Page<CommentModel> comments = commentService.findCommentsByThreadId(threadId,
+            Pageable.of(page, size));
+        PagedModel<CommentModel> pageModel = new PagedModel<>(comments);
         return Response.ok(pageModel).build();
     }
 

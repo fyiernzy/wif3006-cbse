@@ -7,12 +7,14 @@ public final class PageUtils {
     private PageUtils() {
     }
 
-    public static <T> PageModel<T> toPage(List<T> source, int page, int size) {
+    public static <T> Page<T> toPage(List<T> source, Pageable pageable) {
+        int page = pageable.page();
+        int size = pageable.size();
         int totalSize = source.size();
         int totalPages = size == 0 ? 0 : (int) Math.ceil((double) totalSize / size);
 
         if (size == 0 || page < 0 || page >= totalPages) {
-            return new PageModel<>(
+            return new Page<>(
                 java.util.Collections.emptyList(),
                 page,
                 size,
@@ -24,7 +26,7 @@ public final class PageUtils {
         int fromIndex = page * size;
         int toIndex = Math.min(fromIndex + size, totalSize);
 
-        return new PageModel<>(
+        return new Page<>(
             source.subList(fromIndex, toIndex),
             page,
             size,

@@ -4,15 +4,15 @@ import assignment.wif3006cbse.features.community.application.dto.post.CreatePost
 import assignment.wif3006cbse.features.community.application.dto.post.PostModel;
 import assignment.wif3006cbse.features.community.application.dto.post.UpdatePostModel;
 import assignment.wif3006cbse.features.community.application.service.PostService;
-import assignment.wif3006cbse.shared.pagination.PageModel;
-import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.Pageable;
+import assignment.wif3006cbse.shared.pagination.PagedModel;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component(service = {PostController.class}, property = {
     "osgi.jaxrs.resource=true",
@@ -44,8 +44,8 @@ public class PostController {
     public Response findPostsByAuthorId(@PathParam("id") String authorId,
                                         @QueryParam("page") @DefaultValue("0") int page,
                                         @QueryParam("size") @DefaultValue("20") int size) {
-        List<PostModel> posts = postService.findPostsByAuthorId(authorId);
-        PageModel<PostModel> pageModel = PageUtils.toPage(posts, page, size);
+        Page<PostModel> posts = postService.findPostsByAuthorId(authorId, Pageable.of(page, size));
+        PagedModel<PostModel> pageModel = new PagedModel<>(posts);
         return Response.ok(pageModel).build();
     }
 

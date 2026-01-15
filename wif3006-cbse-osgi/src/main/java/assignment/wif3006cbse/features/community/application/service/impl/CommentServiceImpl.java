@@ -6,12 +6,14 @@ import assignment.wif3006cbse.features.community.application.dto.comment.UpdateC
 import assignment.wif3006cbse.features.community.application.service.CommentService;
 import assignment.wif3006cbse.features.community.domain.entity.Comment;
 import assignment.wif3006cbse.features.community.domain.repository.CommentRepository;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
+import assignment.wif3006cbse.shared.pagination.Pageable;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component(service = CommentService.class)
@@ -36,10 +38,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentModel> findCommentsByThreadId(String threadId) {
-        return commentRepository.findAllByThreadId(threadId).stream()
+    public Page<CommentModel> findCommentsByThreadId(String threadId, Pageable pageable) {
+        return PageUtils.toPage(commentRepository.findAllByThreadId(threadId).stream()
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()), pageable);
     }
 
     @Override
