@@ -30,7 +30,7 @@ public interface ProjectService {
     /**
      * Get all projects.
      */
-    List<ProjectListModel> getAllProjects();
+    List<ProjectListModel> getAllProjects(String q);
 
     /**
      * Get available projects (not yet taken).
