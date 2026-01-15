@@ -55,7 +55,7 @@ public class ExperienceServiceImpl implements ExperienceService {
     public List<ExperienceModel> findAllByUserId(String userId) {
         return experienceRepository.findAllByUserId(userId).stream()
             .sorted(Comparator.comparing(Experience::getStartDate).reversed())
-            .map(this::toModel)
+            .map(exp -> toModel(exp))
             .collect(Collectors.toList());
     }
 
