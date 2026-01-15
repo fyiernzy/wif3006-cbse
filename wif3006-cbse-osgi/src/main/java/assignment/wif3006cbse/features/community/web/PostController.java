@@ -4,6 +4,8 @@ import assignment.wif3006cbse.features.community.application.dto.post.CreatePost
 import assignment.wif3006cbse.features.community.application.dto.post.PostModel;
 import assignment.wif3006cbse.features.community.application.dto.post.UpdatePostModel;
 import assignment.wif3006cbse.features.community.application.service.PostService;
+import assignment.wif3006cbse.shared.pagination.PageModel;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -12,9 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Component(service = { PostController.class }, property = {
-        "osgi.jaxrs.resource=true",
-        "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
+@Component(service = {PostController.class}, property = {
+    "osgi.jaxrs.resource=true",
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
 })
 @Path("/api/v1/posts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,17 +41,12 @@ public class PostController {
 
     @GET
     @Path("/author/{id}")
-    public Response findPostsByAuthorId(
-            @PathParam("id") String authorId,
-            @QueryParam("page") @DefaultValue("0") int page,
-            @QueryParam("size") @DefaultValue("20") int size) {
-        List<PostModel> all = postService.findPostsByAuthorId(authorId);
-        int fromIndex = page * size;
-        if (fromIndex >= all.size()) {
-            return Response.ok(java.util.Collections.emptyList()).build();
-        }
-        int toIndex = Math.min(fromIndex + size, all.size());
-        return Response.ok(all.subList(fromIndex, toIndex)).build();
+    public Response findPostsByAuthorId(@PathParam("id") String authorId,
+                                        @QueryParam("page") @DefaultValue("0") int page,
+                                        @QueryParam("size") @DefaultValue("20") int size) {
+        List<PostModel> posts = postService.findPostsByAuthorId(authorId);
+        PageModel<PostModel> pageModel = PageUtils.toPage(posts, page, size);
+        return Response.ok(pageModel).build();
     }
 
     @PUT
