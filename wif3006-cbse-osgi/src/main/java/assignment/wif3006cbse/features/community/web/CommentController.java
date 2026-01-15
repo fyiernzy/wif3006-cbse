@@ -4,6 +4,8 @@ import assignment.wif3006cbse.features.community.application.dto.comment.Comment
 import assignment.wif3006cbse.features.community.application.dto.comment.CreateCommentModel;
 import assignment.wif3006cbse.features.community.application.dto.comment.UpdateCommentModel;
 import assignment.wif3006cbse.features.community.application.service.CommentService;
+import assignment.wif3006cbse.shared.pagination.PageModel;
+import assignment.wif3006cbse.shared.pagination.PageUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -32,9 +34,12 @@ public class CommentController {
 
     @GET
     @Path("/{threadId}")
-    public Response getCommentsByThread(@PathParam("threadId") String threadId) {
+    public Response findCommentsByThreadId(@PathParam("threadId") String threadId,
+                                           @QueryParam("page") @DefaultValue("0") int page,
+                                           @QueryParam("size") @DefaultValue("20") int size) {
         List<CommentModel> comments = commentService.findCommentsByThreadId(threadId);
-        return Response.ok(comments).build();
+        PageModel<CommentModel> pageModel = PageUtils.toPage(comments, page, size);
+        return Response.ok(pageModel).build();
     }
 
     @PUT
