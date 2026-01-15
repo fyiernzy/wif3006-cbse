@@ -65,8 +65,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectListModel> getAllProjects() {
+    public List<ProjectListModel> getAllProjects(String q) {
         return projectRepository.findAll().stream()
+                .filter(project -> q == null || q.isEmpty() ||
+                        project.getProjectTitle().toLowerCase().contains(q.toLowerCase()))
                 .map(this::toProjectListModel)
                 .toList();
     }
@@ -268,16 +270,16 @@ public class ProjectServiceImpl implements ProjectService {
                 String fileName = attachment.getContentDisposition().getParameter("filename");
 
                 if (is != null && fileName != null) {
-                    // 1. Save to disk via Storage Helper
+
                     String storedFilename = fileStorageService.store(is, fileName);
 
-                    // 2. Extract UUID (if you want to strip extension as per your previous logic)
+
                     String fileId = storedFilename;
                     if (storedFilename.contains(".")) {
                         fileId = storedFilename.substring(0, storedFilename.lastIndexOf('.'));
                     }
 
-                    // 3. Keep track of what we just added
+
                     newIds.add(fileId);
                 }
             } catch (IOException e) {
