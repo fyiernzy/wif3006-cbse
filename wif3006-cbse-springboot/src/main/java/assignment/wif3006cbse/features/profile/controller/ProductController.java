@@ -31,23 +31,23 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductModel findProductById(@PathVariable @NotBlank String id) {
+    public ProductModel findProductById(@PathVariable("id") @NotBlank String id) {
         return productService.findProductById(id);
     }
 
     @GetMapping("/user/{userId}")
-    public List<ProductModel> findAllByUserId(@PathVariable @NotBlank String userId) {
+    public List<ProductModel> findAllByUserId(@PathVariable("userId") @NotBlank String userId) {
         return productService.findAllByUserId(userId);
     }
 
     @GetMapping("/user/{userId}/paged")
-    public PagedModel<ProductModel> findAllByUserIdPaged(@PathVariable @NotBlank String userId,
+    public PagedModel<ProductModel> findAllByUserIdPaged(@PathVariable("userId") @NotBlank String userId,
                                                          @PageableDefault Pageable pageable) {
         return new PagedModel<>(productService.findAllByUserId(userId, pageable));
     }
 
     @GetMapping("/category/{category}")
-    public List<ProductModel> findAllByCategory(@PathVariable @NotBlank String category) {
+    public List<ProductModel> findAllByCategory(@PathVariable("category") @NotBlank String category) {
         return productService.findAllByCategory(category);
     }
 
@@ -57,7 +57,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable @NotBlank String id) {
+    public void deleteProduct(@PathVariable("id") @NotBlank String id) {
         productService.deleteProductById(id);
     }
 }

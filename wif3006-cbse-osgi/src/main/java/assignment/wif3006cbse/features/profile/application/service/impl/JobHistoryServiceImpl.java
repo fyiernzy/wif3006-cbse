@@ -37,7 +37,7 @@ public class JobHistoryServiceImpl implements JobHistoryService {
     public List<JobHistoryModel> findAllByUserId(String userId) {
         return jobHistoryRepository.findAllByUserId(userId).stream()
             .sorted(Comparator.comparing(JobHistory::getStartedAt).reversed())
-            .map(this::toModel)
+            .map(jh -> toModel(jh))
             .collect(Collectors.toList());
     }
 
@@ -45,7 +45,7 @@ public class JobHistoryServiceImpl implements JobHistoryService {
     public List<JobHistoryModel> findAllByStatus(String status) {
         return jobHistoryRepository.findAllByStatus(status).stream()
             .sorted(Comparator.comparing(JobHistory::getStartedAt).reversed())
-            .map(this::toModel)
+            .map(jh -> toModel(jh))
             .collect(Collectors.toList());
     }
 

@@ -117,7 +117,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void addApplyingProject(String userId, String projectId) {
+    public UserModel addApplyingProject(String userId, String projectId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (user.getApplyingProjects() == null)
@@ -135,12 +135,12 @@ public class ProjectService {
             project.getApplicants().add(userId);
             projectRepository.save(project);
         }
-        // Notification logic omitted as Notification system is not fully set up in
-        // context
+
+        return userMapper.toModel(user);
     }
 
     @Transactional
-    public void removeApplyingProject(String userId, String projectId) {
+    public UserModel removeApplyingProject(String userId, String projectId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (user.getApplyingProjects() != null) {
@@ -154,6 +154,8 @@ public class ProjectService {
             project.getApplicants().remove(userId);
             projectRepository.save(project);
         }
+
+        return userMapper.toModel(user);
     }
 
     @Transactional(readOnly = true)
@@ -230,10 +232,6 @@ public class ProjectService {
         project.setUploadedFileIds(uploadedIds);
         project.setServiceProvider(userId);
         Project savedProject = projectRepository.save(project);
-
-        // Logic from js involves updating user's taken/completed projects if needed,
-        // but explicit call in js was commented out or partial. Focusing on project
-        // update.
 
         return projectMapper.toModel(savedProject);
     }
