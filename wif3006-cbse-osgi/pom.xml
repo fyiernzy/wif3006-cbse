@@ -7,105 +7,115 @@
   <groupId>assignment</groupId>
   <artifactId>wif3006-cbse-osgi</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>bundle-shared</module>
+    <module>bundle-web-core</module>
+    <module>bundle-community</module>
+    <module>bundle-profile</module>
+    <module>bundle-project</module>
+    <module>bundle-payment</module>
+  </modules>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <version.osgi.core>6.0.0</version.osgi.core>
+    <version.osgi.ds.annotations>1.5.1</version.osgi.ds.annotations>
+    <version.osgi.jaxrs>1.0.0</version.osgi.jaxrs>
+    <version.jackson>2.17.2</version.jackson>
+    <version.cxf>3.5.6</version.cxf>
+    <version.aries.jaxrs.api>1.0.4</version.aries.jaxrs.api>
+    <version.maven.bundle.plugin>5.1.9</version.maven.bundle.plugin>
+    <version.maven.compiler.plugin>3.11.0</version.maven.compiler.plugin>
   </properties>
 
-
-
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.osgi/osgi.core -->
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>6.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.service.component.annotations</artifactId>
-      <version>1.5.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.service.jaxrs</artifactId>
-      <version>1.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
-      <artifactId>jackson-jaxrs-json-provider</artifactId>
-      <version>2.17.2</version>
-    </dependency>
-    <dependency>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+        <version>${version.osgi.core}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.component.annotations</artifactId>
+        <version>${version.osgi.ds.annotations}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.jaxrs</artifactId>
+        <version>${version.osgi.jaxrs}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <artifactId>jackson-jaxrs-json-provider</artifactId>
+        <version>${version.jackson}</version>
+      </dependency>
+      <dependency>
         <groupId>com.fasterxml.jackson.module</groupId>
         <artifactId>jackson-module-parameter-names</artifactId>
-        <version>2.17.2</version>
-    </dependency>
-    <dependency>
+        <version>${version.jackson}</version>
+      </dependency>
+      <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jdk8</artifactId>
-        <version>2.17.2</version>
-    </dependency>
-    <dependency>
+        <version>${version.jackson}</version>
+      </dependency>
+      <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
-        <version>2.17.2</version>
-    </dependency>
-      <dependency>
-          <groupId>org.apache.cxf</groupId>
-          <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-          <version>3.5.6</version> <scope>provided</scope>
+        <version>${version.jackson}</version>
       </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.aries.spec/org.apache.aries.javax.jax.rs-api -->
-    <dependency>
-      <groupId>org.apache.aries.spec</groupId>
-      <artifactId>org.apache.aries.javax.jax.rs-api</artifactId>
-      <version>1.0.4</version>
-    </dependency>
-  </dependencies>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        <version>${version.cxf}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.aries.spec</groupId>
+        <artifactId>org.apache.aries.javax.jax.rs-api</artifactId>
+        <version>${version.aries.jaxrs.api}</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
         <configuration>
           <parameters>true</parameters>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.9</version>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Version>${project.version}</Bundle-Version>
-            <Embed-Dependency>jackson-module-parameter-names,jackson-datatype-jdk8,jackson-datatype-jsr310</Embed-Dependency>
-            <_dsannotations>*</_dsannotations>
-
-            <Export-Package>
-              assignment.wif3006cbse.features.community.api,
-              assignment.wif3006cbse.features.profile.application.service,
-              assignment.wif3006cbse.features.profile.application.dto.user,
-              assignment.wif3006cbse.features.profile.application.dto.experience,
-              assignment.wif3006cbse.features.profile.application.dto.product,
-              assignment.wif3006cbse.features.profile.application.dto.jobhistory
-            </Export-Package>
-            <Import-Package>*</Import-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${version.maven.compiler.plugin}</version>
+          <configuration>
+            <parameters>true</parameters>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${version.maven.bundle.plugin}</version>
+          <extensions>true</extensions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
 </project>
