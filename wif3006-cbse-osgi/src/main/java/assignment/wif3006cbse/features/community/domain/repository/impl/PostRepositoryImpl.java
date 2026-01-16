@@ -7,6 +7,7 @@ import org.osgi.service.component.annotations.Component;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component(service = PostRepository.class)
@@ -20,7 +21,7 @@ public class PostRepositoryImpl extends FileBasedRepository<Post, String> implem
     @Override
     public List<Post> findAllByAuthorId(String authorId) {
         return getStore().values().stream()
-            .filter(post -> post.getAuthorId().equals(authorId))
+            .filter(post -> Objects.equals(post.getAuthorId(), authorId))
             .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
             .collect(Collectors.toList());
     }
