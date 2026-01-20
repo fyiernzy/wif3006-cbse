@@ -30,8 +30,8 @@ public class CommentController {
     }
 
     @GetMapping("/{threadId}")
-    public PagedModel<CommentModel> findCommentByThreadId(@PathVariable @NotNull String threadId,
-                                                          @PageableDefault Pageable pageable) {
+    public PagedModel<CommentModel> findCommentsByThreadId(@PathVariable @NotNull String threadId,
+                                                           @PageableDefault Pageable pageable) {
         return new PagedModel<>(commentService.findCommentsByThreadId(threadId, pageable));
     }
 

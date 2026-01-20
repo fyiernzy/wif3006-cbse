@@ -63,7 +63,7 @@ public class ReactionService {
         Reaction reaction = reactionRepository.findById(updateReactionModel.id())
             .orElseThrow(() -> new EntityNotFoundException("Reaction not found."));
         reactionMapper.updateEntityFromUpdateModel(reaction, updateReactionModel);
-        return reactionMapper.toModel(reactionRepository.save(reaction));
+        return reactionMapper.toModel(reactionRepository.saveAndFlush(reaction));
     }
 
     @Transactional

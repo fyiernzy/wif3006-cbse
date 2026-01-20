@@ -1,0 +1,58 @@
+package assignment.wif3006cbse.features.community.web;
+
+import assignment.wif3006cbse.features.community.application.dto.thread.CreateThreadModel;
+import assignment.wif3006cbse.features.community.application.dto.thread.ThreadEntityModel;
+import assignment.wif3006cbse.features.community.application.dto.thread.UpdateThreadModel;
+import assignment.wif3006cbse.features.community.application.service.ThreadEntityService;
+import assignment.wif3006cbse.shared.pagination.Page;
+import assignment.wif3006cbse.shared.pagination.Pageable;
+import assignment.wif3006cbse.shared.pagination.PagedModel;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Component(service = {ThreadEntityController.class}, property = {
+    "osgi.jaxrs.resource=true",
+    "osgi.jaxrs.application.select=(osgi.jaxrs.name=main)",
+})
+@Path("/api/v1/threads")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ThreadEntityController {
+
+    @Reference
+    private ThreadEntityService threadService;
+
+    @POST
+    public Response createThread(CreateThreadModel createThreadModel) {
+        ThreadEntityModel created = threadService.createThread(createThreadModel);
+        return Response.status(Response.Status.CREATED).entity(created).build();
+    }
+
+    @GET
+    @Path("/post/{postId}")
+    public Response findThreadsByPostId(@PathParam("postId") String postId,
+                                        @QueryParam("page") @DefaultValue("0") int page,
+                                        @QueryParam("size") @DefaultValue("20") int size) {
+        Page<ThreadEntityModel> threads = threadService.findThreadsByPostId(postId,
+            Pageable.of(page, size));
+        PagedModel<ThreadEntityModel> pageModel = new PagedModel<>(threads);
+        return Response.ok(pageModel).build();
+    }
+
+    @PUT
+    public Response updateThread(UpdateThreadModel updateThreadModel) {
+        ThreadEntityModel updated = threadService.updateThread(updateThreadModel);
+        return Response.ok(updated).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteThread(@PathParam("id") String id) {
+        threadService.deleteThreadById(id);
+        return Response.noContent().build();
+    }
+}
